@@ -89,10 +89,10 @@ export default function Portfolio() {
                 <a href="mailto:brady.d.deschamps@gmail.com" className="p-3 bg-emerald-100 hover:bg-emerald-200 rounded-full transition-all hover:scale-110 text-emerald-700">
                   <Mail size={24} />
                 </a>
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="p-3 bg-emerald-100 hover:bg-emerald-200 rounded-full transition-all hover:scale-110 text-emerald-700">
+                <a href="https://github.com/BradyD11" target="_blank" rel="noopener noreferrer" className="p-3 bg-emerald-100 hover:bg-emerald-200 rounded-full transition-all hover:scale-110 text-emerald-700">
                   <Github size={24} />
                 </a>
-                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-3 bg-emerald-100 hover:bg-emerald-200 rounded-full transition-all hover:scale-110 text-emerald-700">
+                <a href="https://www.linkedin.com/in/brady-d-deschamps/" target="_blank" rel="noopener noreferrer" className="p-3 bg-emerald-100 hover:bg-emerald-200 rounded-full transition-all hover:scale-110 text-emerald-700">
                   <Linkedin size={24} />
                 </a>
               </div>
