@@ -28,7 +28,7 @@ export default function Portfolio() {
         <div className="max-w-6xl mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
             <div className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-              BD
+                Brady Deschamps
             </div>
             <div className="hidden md:flex space-x-8">
               {['home', 'about', 'experience', 'projects', 'contact'].map((section) => (
@@ -59,7 +59,7 @@ export default function Portfolio() {
                 {/* Main photo placeholder */}
                 <div className="w-80 h-80 rounded-2xl bg-gradient-to-br from-emerald-100 to-teal-100 border-4 border-white shadow-2xl overflow-hidden">
                   <div className="w-full h-full flex items-center justify-center text-slate-400">
-                    <img src="/SeniorPhoto copy.jpg" alt="Brady Deschamps" className="w-full h-full object-cover" />
+                    <img src="/SeniorPhoto.jpeg" alt="Brady Deschamps" className="w-full h-full object-cover" />
                   </div>
                 </div>
                 {/* Decorative element */}
@@ -75,7 +75,7 @@ export default function Portfolio() {
                   Software Developer
                 </span>
               </div>
-              <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-600 bg-clip-text text-transparent animate-gradient">
+              <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-600 bg-clip-text text-transparent animate-gradient">
                 Brady Deschamps
               </h1>
               <p className="text-xl md:text-2xl text-slate-600 mb-8 max-w-xl">
