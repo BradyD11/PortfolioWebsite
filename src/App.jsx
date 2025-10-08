@@ -59,11 +59,7 @@ export default function Portfolio() {
                 {/* Main photo placeholder */}
                 <div className="w-80 h-80 rounded-2xl bg-gradient-to-br from-emerald-100 to-teal-100 border-4 border-white shadow-2xl overflow-hidden">
                   <div className="w-full h-full flex items-center justify-center text-slate-400">
-                    {/* Replace this div with: <img src="/your-photo.jpg" alt="Brady Deschamps" className="w-full h-full object-cover" /> */}
-                    <div className="text-center">
-                      <div className="text-6xl mb-2">📸</div>
-                      <p className="text-sm">Professional Photo</p>
-                    </div>
+                    <img src="/SeniorPhoto copy.jpg" alt="Brady Deschamps" className="w-full h-full object-cover" />
                   </div>
                 </div>
                 {/* Decorative element */}
