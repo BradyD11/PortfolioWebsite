@@ -316,10 +316,8 @@ export default function Portfolio() {
               <span>Email Me</span>
             </a>
             <a
-              href="tel:+14803132688"
               className="flex items-center space-x-2 bg-emerald-100 text-emerald-700 px-8 py-4 rounded-full hover:bg-emerald-200 transition-all"
             >
-              <span>(480) 313-2688</span>
             </a>
           </div>
         </div>
