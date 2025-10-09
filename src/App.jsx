@@ -79,7 +79,7 @@ export default function Portfolio() {
                 Brady Deschamps
               </h1>
               <p className="text-xl md:text-2xl text-slate-600 mb-8 max-w-xl">
-                Computer Science student at ASU, building innovative solutions and exploring the frontiers of cybersecurity and AI
+                Computer Science student at ASU, passionate about building impactful software solutions.
               </p>
               <div className="flex justify-center md:justify-start space-x-4 mb-12">
                 <a href="mailto:brady.d.deschamps@gmail.com" className="p-3 bg-emerald-100 hover:bg-emerald-200 rounded-full transition-all hover:scale-110 text-emerald-700">
