@@ -206,10 +206,7 @@ export default function Portfolio() {
         <div className="max-w-6xl w-full grid md:grid-cols-[1.2fr_0.8fr] gap-12 items-center">
           <div>
             <div className="flex items-center gap-2 mb-6 text-sm font-mono text-cyan-400">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
-              </span>
+              <span className="inline-flex rounded-full h-2 w-2 bg-cyan-400" />
               open to SWE internships &amp; new-grad roles &middot; NYC
             </div>
             <h1 className="text-5xl md:text-6xl font-bold text-white tracking-tight mb-6">
@@ -267,12 +264,8 @@ export default function Portfolio() {
           </div>
 
           <div className="flex justify-center md:justify-end">
-            <div className="relative">
-              <div className="w-64 h-64 md:w-72 md:h-72 rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
-                <img src="/SeniorPhoto.jpeg" alt="Brady Deschamps" className="w-full h-full object-cover" />
-              </div>
-              <div className="absolute -bottom-4 -right-4 w-24 h-24 rounded-2xl bg-cyan-400/20 -z-10 blur-xl" />
-              <div className="absolute -top-4 -left-4 w-20 h-20 rounded-full border border-cyan-400/30 -z-10" />
+            <div className="w-64 h-64 md:w-72 md:h-72 rounded-2xl overflow-hidden border border-white/10 shadow-xl">
+              <img src="/headshot.jpeg" alt="Brady Deschamps" className="w-full h-full object-cover" />
             </div>
           </div>
         </div>
