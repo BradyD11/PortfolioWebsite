@@ -1,14 +1,117 @@
 import React, { useState, useEffect } from 'react';
-import { Github, Linkedin, Mail, ExternalLink, Code, Briefcase, GraduationCap, Award, ChevronDown } from 'lucide-react';
+import {
+  Github,
+  Linkedin,
+  Mail,
+  ExternalLink,
+  FileDown,
+  Code2,
+  Briefcase,
+  GraduationCap,
+  Award,
+  ChevronDown,
+  MapPin,
+  Menu,
+  X,
+} from 'lucide-react';
+
+const NAV_SECTIONS = ['about', 'experience', 'projects', 'skills', 'contact'];
+
+const EXPERIENCE = [
+  {
+    title: 'Information Technology Intern',
+    company: 'SMBC',
+    date: 'Jun 2026 - Aug 2026',
+    location: 'New York, NY',
+    points: [
+      'Developed a full-stack port-tracking tool using React, Node, SQL, and the Nlyte NGage API, reducing manual tracking effort and improving inventory data accuracy for datacenter operations',
+      'Monitored, documented, and resolved infrastructure tickets across two enterprise datacenter locations for one of the largest foreign banking institutions in the U.S., ensuring operational continuity and timely issue resolution',
+      'Installed and configured new network devices bridging on-premises datacenter infrastructure with cloud service providers, collaborating with the network team to integrate hardware into hybrid cloud architecture',
+    ],
+  },
+  {
+    title: 'Software Engineer',
+    company: 'The Luminosity Lab',
+    date: 'Feb 2026 - Present',
+    location: 'Tempe, AZ',
+    points: [
+      "Built an automated ML inference pipeline on ASU's Sol supercomputer, orchestrating three sequential deep learning models with SLURM job arrays and Apptainer containers, using a feedback loop on output-scoring metrics to grade runs and direct subsequent parameters",
+      'Engineered a multithreaded computer vision detection system with PyTorch and parallel processing techniques to optimize performance and reduce inference latency for image recognition tasks',
+      'Architected and deployed a Python-based end-to-end data pipeline integrating NASA JPL datasets with the Orbitscape platform, enabling real-time aerospace data visualization and analysis',
+    ],
+  },
+  {
+    title: 'Software Engineer Intern (Part-time)',
+    company: 'Pivotal Energy Solutions',
+    date: 'Apr 2024 - Jun 2026',
+    location: 'Gilbert, AZ',
+    points: [
+      'Refactored Python serializer validation logic into a JSON-based REST API, enabling language-agnostic data verification and improved system scalability',
+      'Increased unit test code coverage by 90% across 20+ interconnected modules by writing comprehensive test suites in Python, improving reliability and maintainability',
+    ],
+  },
+  {
+    title: 'Cybersecurity Research Assistant',
+    company: 'Arizona State University',
+    date: 'Nov 2024 - Aug 2025',
+    location: 'Tempe, AZ',
+    points: [
+      'Designed and deployed an intentionally vulnerable system to capture live attacker behavior, building behavioral intrusion profiles used to inform development of a personalized honeypot AI model',
+    ],
+  },
+  {
+    title: 'SCAI Peer Mentor',
+    company: 'School of Computing and Augmented Intelligence',
+    date: 'Aug 2025 - Present',
+    location: 'Tempe, AZ',
+    points: [
+      'Guided students in SCAI on academic and professional development, providing technical mentorship in CS coursework and career preparation',
+    ],
+  },
+];
+
+const PROJECTS = [
+  {
+    title: 'Datatable Advanced Query',
+    company: 'ICManage',
+    tech: ['Python', 'Django', 'SQL'],
+    description:
+      'A SQL-like search syntax layered on top of the Django ORM, giving users boolean, comparison, and nested expression support without writing raw queries.',
+    features: [
+      'Implemented a lexer and parser for a SQL-like search syntax supporting boolean operators, comparison operators, and complex expressions',
+      'Integrated with the Django ORM to translate the parsed abstract syntax tree into database queries',
+    ],
+  },
+  {
+    title: 'Orbitscape',
+    company: 'Orbitscape.space',
+    date: '2025 - Present',
+    link: 'https://orbitscape.space',
+    tech: ['Python', 'Pandas', 'Machine Learning'],
+    description:
+      'A space-weather analysis platform applying ML to orbital and aerospace applications, built on a production data pipeline connecting NASA JPL sources to predictive models.',
+    features: [
+      'Applying machine learning techniques to space weather analysis for predictive modeling of orbital and aerospace applications',
+      'Built a production Python/pandas data pipeline connecting NASA JPL data sources to the platform',
+    ],
+  },
+];
+
+const SKILLS = {
+  Languages: ['Python', 'TypeScript', 'JavaScript', 'Java', 'C++', 'SQL'],
+  'Frameworks & Libraries': ['React', 'Django', 'PyTorch'],
+  Engineering: ['APIs', 'OOP', 'Software Testing', 'ML Model Training', 'CI/CD'],
+  'Cloud & Infrastructure': ['Docker', 'Cloud Platforms', 'Datacenter Operations'],
+  Tooling: ['Git', 'GitHub'],
+};
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState('home');
   const [isScrolled, setIsScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 40);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -19,191 +122,233 @@ export default function Portfolio() {
       element.scrollIntoView({ behavior: 'smooth' });
       setActiveSection(id);
     }
+    setMenuOpen(false);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50 to-slate-100 text-slate-900">
+    <div className="min-h-screen bg-slate-950 text-slate-200 selection:bg-cyan-400/30 selection:text-white">
+      {/* Background grid + glow */}
+      <div className="fixed inset-0 -z-10 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:48px_48px]" />
+      <div className="fixed -z-10 top-[-10%] left-1/2 -translate-x-1/2 w-[60rem] h-[36rem] bg-cyan-500/10 blur-[120px] rounded-full" />
+
       {/* Navigation */}
-      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-lg' : 'bg-transparent'}`}>
-        <div className="max-w-6xl mx-auto px-6 py-4">
-          <div className="flex justify-between items-center">
-            <div className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-                Brady Deschamps
-            </div>
-            <div className="hidden md:flex space-x-8">
-              {['home', 'about', 'experience', 'projects', 'contact'].map((section) => (
-                <button
-                  key={section}
-                  onClick={() => scrollToSection(section)}
-                  className={`capitalize hover:text-emerald-600 transition-colors ${activeSection === section ? 'text-emerald-600 font-semibold' : 'text-slate-700'}`}
-                >
-                  {section}
-                </button>
-              ))}
-            </div>
+      <nav
+        className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+          isScrolled ? 'bg-slate-950/90 backdrop-blur-md border-b border-white/10' : 'bg-transparent'
+        }`}
+      >
+        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+          <button
+            onClick={() => scrollToSection('home')}
+            className="font-mono text-lg font-semibold text-white tracking-tight"
+          >
+            brady<span className="text-cyan-400">.</span>dev
+          </button>
+
+          <div className="hidden md:flex items-center space-x-8">
+            {NAV_SECTIONS.map((section) => (
+              <button
+                key={section}
+                onClick={() => scrollToSection(section)}
+                className={`capitalize text-sm font-medium transition-colors ${
+                  activeSection === section ? 'text-cyan-400' : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                {section}
+              </button>
+            ))}
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-md bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition-colors"
+            >
+              <FileDown size={16} />
+              Resume
+            </a>
           </div>
+
+          <button
+            className="md:hidden text-slate-200"
+            onClick={() => setMenuOpen((o) => !o)}
+            aria-label="Toggle menu"
+          >
+            {menuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
+
+        {menuOpen && (
+          <div className="md:hidden bg-slate-950/95 backdrop-blur-md border-t border-white/10 px-6 py-4 flex flex-col space-y-4">
+            {NAV_SECTIONS.map((section) => (
+              <button
+                key={section}
+                onClick={() => scrollToSection(section)}
+                className="capitalize text-left text-slate-300 hover:text-white"
+              >
+                {section}
+              </button>
+            ))}
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-md bg-cyan-400 text-slate-950 w-fit"
+            >
+              <FileDown size={16} />
+              Resume
+            </a>
+          </div>
+        )}
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="min-h-screen flex items-center justify-center px-6 relative">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute w-96 h-96 bg-emerald-200/40 rounded-full blur-3xl top-20 left-20 animate-pulse"></div>
-          <div className="absolute w-96 h-96 bg-teal-200/40 rounded-full blur-3xl bottom-20 right-20 animate-pulse delay-1000"></div>
-        </div>
-        <div className="z-10 max-w-6xl w-full">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* Photo Section */}
-            <div className="flex justify-center md:justify-end order-1 md:order-2">
-              <div className="relative">
-                {/* Main photo placeholder */}
-                <div className="w-80 h-80 rounded-2xl bg-gradient-to-br from-emerald-100 to-teal-100 border-4 border-white shadow-2xl overflow-hidden">
-                  <div className="w-full h-full flex items-center justify-center text-slate-400">
-                    <img src="/SeniorPhoto.jpeg" alt="Brady Deschamps" className="w-full h-full object-cover" />
-                  </div>
-                </div>
-                {/* Decorative element */}
-                <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-2xl -z-10"></div>
-                <div className="absolute -top-4 -left-4 w-24 h-24 bg-gradient-to-br from-emerald-300 to-teal-300 rounded-full -z-10"></div>
-              </div>
+      <section id="home" className="min-h-screen flex items-center justify-center px-6 pt-24">
+        <div className="max-w-6xl w-full grid md:grid-cols-[1.2fr_0.8fr] gap-12 items-center">
+          <div>
+            <div className="flex items-center gap-2 mb-6 text-sm font-mono text-cyan-400">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
+              </span>
+              open to SWE internships &amp; new-grad roles &middot; NYC
             </div>
-
-            {/* Text Section */}
-            <div className="text-center md:text-left order-2 md:order-1">
-              <div className="mb-6">
-                <span className="inline-block px-4 py-2 bg-emerald-100 rounded-full text-emerald-700 text-sm font-semibold mb-4">
-                  Software Developer
-                </span>
-              </div>
-              <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-600 bg-clip-text text-transparent animate-gradient">
-                Brady Deschamps
-              </h1>
-              <p className="text-xl md:text-2xl text-slate-600 mb-8 max-w-xl">
-                Computer Science student at ASU, passionate about building impactful software solutions.
-              </p>
-              <div className="flex justify-center md:justify-start space-x-4 mb-12">
-                <a href="mailto:brady.d.deschamps@gmail.com" className="p-3 bg-emerald-100 hover:bg-emerald-200 rounded-full transition-all hover:scale-110 text-emerald-700">
-                  <Mail size={24} />
-                </a>
-                <a href="https://github.com/BradyD11" target="_blank" rel="noopener noreferrer" className="p-3 bg-emerald-100 hover:bg-emerald-200 rounded-full transition-all hover:scale-110 text-emerald-700">
-                  <Github size={24} />
-                </a>
-                <a href="https://www.linkedin.com/in/brady-d-deschamps/" target="_blank" rel="noopener noreferrer" className="p-3 bg-emerald-100 hover:bg-emerald-200 rounded-full transition-all hover:scale-110 text-emerald-700">
-                  <Linkedin size={24} />
-                </a>
-              </div>
+            <h1 className="text-5xl md:text-6xl font-bold text-white tracking-tight mb-6">
+              Brady Deschamps
+            </h1>
+            <p className="text-xl md:text-2xl text-slate-400 mb-4 max-w-2xl">
+              Software Engineer &amp; CS BS/MS candidate at Arizona State University.
+            </p>
+            <p className="text-base md:text-lg text-slate-500 mb-10 max-w-2xl leading-relaxed">
+              I build ML evaluation pipelines, data pipelines, and API-driven systems &mdash;
+              from SLURM-orchestrated inference on a supercomputer to production REST APIs.
+              Currently looking for backend / full-stack SWE opportunities in NYC.
+            </p>
+            <div className="flex flex-wrap gap-4">
               <button
-                onClick={() => scrollToSection('about')}
-                className="animate-bounce text-emerald-600"
+                onClick={() => scrollToSection('experience')}
+                className="px-6 py-3 rounded-md bg-cyan-400 text-slate-950 font-semibold hover:bg-cyan-300 transition-colors"
               >
-                <ChevronDown size={32} />
+                View Experience
               </button>
+              <button
+                onClick={() => scrollToSection('contact')}
+                className="px-6 py-3 rounded-md border border-white/15 text-slate-200 font-semibold hover:border-cyan-400/60 hover:text-white transition-colors"
+              >
+                Get In Touch
+              </button>
+            </div>
+            <div className="flex gap-4 mt-10">
+              <a
+                href="mailto:brady.d.deschamps@gmail.com"
+                aria-label="Email"
+                className="p-3 rounded-full border border-white/10 hover:border-cyan-400/60 hover:text-cyan-400 transition-all"
+              >
+                <Mail size={20} />
+              </a>
+              <a
+                href="https://github.com/BradyD11"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+                className="p-3 rounded-full border border-white/10 hover:border-cyan-400/60 hover:text-cyan-400 transition-all"
+              >
+                <Github size={20} />
+              </a>
+              <a
+                href="https://www.linkedin.com/in/brady-d-deschamps/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="p-3 rounded-full border border-white/10 hover:border-cyan-400/60 hover:text-cyan-400 transition-all"
+              >
+                <Linkedin size={20} />
+              </a>
+            </div>
+          </div>
+
+          <div className="flex justify-center md:justify-end">
+            <div className="relative">
+              <div className="w-64 h-64 md:w-72 md:h-72 rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+                <img src="/SeniorPhoto.jpeg" alt="Brady Deschamps" className="w-full h-full object-cover" />
+              </div>
+              <div className="absolute -bottom-4 -right-4 w-24 h-24 rounded-2xl bg-cyan-400/20 -z-10 blur-xl" />
+              <div className="absolute -top-4 -left-4 w-20 h-20 rounded-full border border-cyan-400/30 -z-10" />
             </div>
           </div>
         </div>
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-20 px-6">
+      <section id="about" className="py-24 px-6 border-t border-white/5">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold mb-12 text-center bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-            About Me
-          </h2>
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-emerald-100 shadow-lg">
-            <div className="flex items-start space-x-4 mb-6">
-              <GraduationCap className="text-emerald-600 flex-shrink-0" size={32} />
-              <div>
-                <h3 className="text-2xl font-semibold mb-2 text-slate-800">Education</h3>
-                <p className="text-slate-600">Arizona State University | Computer Science</p>
-                <p className="text-emerald-600 font-semibold">GPA: 4.0 | Aug 2024 - May 2027</p>
-              </div>
-            </div>
-            <div className="flex items-start space-x-4 mb-6">
-              <Award className="text-teal-600 flex-shrink-0" size={32} />
-              <div>
-                <h3 className="text-2xl font-semibold mb-2 text-slate-800">Achievements</h3>
-                <ul className="text-slate-600 space-y-1">
-                  <li>• Grand Challenges Scholars Program</li>
-                  <li>• Tillman Leadership Scholar</li>
-                  <li>• SCAI Peer Mentor</li>
-                </ul>
-              </div>
-            </div>
-            <p className="text-slate-600 leading-relaxed">
-              Aspiring Software Developer with hands-on experience from an internship at Pivotal Energy Solutions, 
-              where I improved unit test coverage and reduced technical debt. I'm passionate about cybersecurity, 
-              AI, and building innovative solutions that make a difference.
+          <SectionHeading eyebrow="01" title="About" />
+          <div className="grid md:grid-cols-2 gap-10">
+            <p className="text-slate-400 leading-relaxed text-lg">
+              I'm a Computer Science BS/MS candidate at Arizona State University (4.0 GPA) with hands-on
+              experience building automated ML evaluation pipelines, Python data pipelines, and API-driven
+              software. I like designing build-run-evaluate-iterate workflows, and I've worked across
+              computer vision, software testing, and both cloud and high-performance computing environments
+              &mdash; alongside cybersecurity research focused on attacker behavior.
             </p>
+            <div className="space-y-6">
+              <div className="flex items-start gap-4">
+                <GraduationCap className="text-cyan-400 flex-shrink-0 mt-1" size={22} />
+                <div>
+                  <h3 className="text-white font-semibold">Arizona State University</h3>
+                  <p className="text-slate-400 text-sm">BS Computer Science &middot; GPA 4.0</p>
+                  <p className="text-slate-500 text-sm">Aug 2024 - May 2027</p>
+                  <p className="text-slate-500 text-sm mt-1">
+                    Coursework: Data Structures &amp; Algorithms, Database Management, Software Engineering
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <Award className="text-cyan-400 flex-shrink-0 mt-1" size={22} />
+                <div>
+                  <h3 className="text-white font-semibold">Achievements</h3>
+                  <ul className="text-slate-400 text-sm space-y-1 mt-1">
+                    <li>Barrett, The Honors College</li>
+                    <li>Tillman LTA Scholar</li>
+                    <li>Grand Challenges Scholars Program</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Experience Section */}
-      <section id="experience" className="py-20 px-6 bg-white/50">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-4xl font-bold mb-12 text-center bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-            Experience
-          </h2>
-          <div className="space-y-8">
-            {[
-              {
-                title: "Software Engineer Intern",
-                company: "Pivotal Energy Solutions",
-                date: "Apr 2024 - Present",
-                location: "Gilbert, AZ",
-                points: [
-                  "Increased unit test code coverage by 90% across 20+ interconnected modules by writing comprehensive test suites in Python",
-                  "Refactored legacy code and removed over 5000 lines of outdated code, reducing technical debt"
-                ]
-              },
-              {
-                title: "Cybersecurity Research Assistant",
-                company: "Arizona State University",
-                date: "Nov 2024 - Present",
-                location: "Tempe, AZ",
-                points: [
-                  "Developed a virtual test environment in Pwn College to collect and analyze attacker data",
-                  "Provided insights for building an attacker-personalized AI model"
-                ]
-              },
-              {
-                title: "SCAI Peer Mentor",
-                company: "Arizona State University",
-                date: "Aug 2025 - Present",
-                location: "Tempe, AZ",
-                points: [
-                  "Guided students in software development and cybersecurity career paths",
-                  "Provided academic and professional advice leading to improved student performance"
-                ]
-              },
-              {
-                title: "Code Coach",
-                company: "theCoderSchool",
-                date: "Jan 2024 - Aug 2024",
-                location: "Gilbert, AZ",
-                points: [
-                  "Taught programming concepts (Python, JavaScript, Scratch) to students aged 7-17",
-                  "Fostered a positive learning environment encouraging creativity and problem-solving"
-                ]
-              }
-            ].map((job, index) => (
-              <div key={index} className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-emerald-100 hover:border-emerald-300 hover:shadow-lg transition-all">
-                <div className="flex items-start space-x-4">
-                  <Briefcase className="text-emerald-600 flex-shrink-0 mt-1" size={24} />
+      <section id="experience" className="py-24 px-6 border-t border-white/5 bg-white/[0.02]">
+        <div className="max-w-4xl mx-auto">
+          <SectionHeading eyebrow="02" title="Experience" />
+          <div className="space-y-6">
+            {EXPERIENCE.map((job, index) => (
+              <div
+                key={index}
+                className="group rounded-xl border border-white/10 bg-slate-900/40 p-6 hover:border-cyan-400/40 hover:bg-slate-900/70 transition-all"
+              >
+                <div className="flex items-start gap-4">
+                  <Briefcase className="text-cyan-400 flex-shrink-0 mt-1" size={20} />
                   <div className="flex-1">
-                    <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
+                    <div className="flex flex-col md:flex-row md:justify-between md:items-baseline gap-1 mb-3">
                       <div>
-                        <h3 className="text-xl font-semibold text-emerald-700">{job.title}</h3>
-                        <p className="text-lg text-slate-800">{job.company}</p>
+                        <h3 className="text-lg font-semibold text-white">{job.title}</h3>
+                        <p className="text-cyan-400/90 text-sm font-medium">{job.company}</p>
                       </div>
-                      <div className="text-slate-500 text-sm md:text-right">
+                      <div className="text-slate-500 text-sm md:text-right font-mono">
                         <p>{job.date}</p>
-                        <p>{job.location}</p>
+                        <p className="flex items-center gap-1 md:justify-end">
+                          <MapPin size={12} /> {job.location}
+                        </p>
                       </div>
                     </div>
-                    <ul className="space-y-2 text-slate-600">
+                    <ul className="space-y-2 text-slate-400 text-sm leading-relaxed">
                       {job.points.map((point, i) => (
-                        <li key={i}>• {point}</li>
+                        <li key={i} className="flex gap-2">
+                          <span className="text-cyan-400/70 mt-1">&raquo;</span>
+                          <span>{point}</span>
+                        </li>
                       ))}
                     </ul>
                   </div>
@@ -215,58 +360,46 @@ export default function Portfolio() {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="py-20 px-6">
+      <section id="projects" className="py-24 px-6 border-t border-white/5">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-4xl font-bold mb-12 text-center bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-            Featured Projects
-          </h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            {[
-              {
-                title: "CrisisConnect",
-                date: "Sep 2025",
-                tech: ["React", "TypeScript", "Google Maps API", "Tailwind CSS"],
-                description: "Full-stack volunteer coordination platform connecting users with local crisis response opportunities",
-                features: [
-                  "Real-time search and filtering",
-                  "Interactive mapping with Google Maps API",
-                  "Location-based discovery"
-                ]
-              },
-              {
-                title: "Datatable Advanced Query",
-                company: "ICManage",
-                tech: ["Python", "Django", "SQL"],
-                description: "Advanced query system with SQL-like syntax for database operations",
-                features: [
-                  "Implemented lexer and parser for SQL-like search syntax",
-                  "Support for boolean and comparison operators",
-                  "Django ORM integration"
-                ]
-              }
-            ].map((project, index) => (
-              <div key={index} className="bg-gradient-to-br from-emerald-50 to-teal-50 backdrop-blur-sm rounded-xl p-6 border border-emerald-200 hover:border-emerald-400 hover:shadow-xl transition-all hover:scale-105">
+          <SectionHeading eyebrow="03" title="Projects" />
+          <div className="grid md:grid-cols-2 gap-6">
+            {PROJECTS.map((project, index) => (
+              <div
+                key={index}
+                className="rounded-xl border border-white/10 bg-slate-900/40 p-6 hover:border-cyan-400/40 hover:bg-slate-900/70 transition-all flex flex-col"
+              >
                 <div className="flex items-start justify-between mb-4">
-                  <Code className="text-emerald-600" size={32} />
+                  <Code2 className="text-cyan-400" size={26} />
                   {project.company && (
-                    <span className="text-xs bg-emerald-200 px-2 py-1 rounded-full text-emerald-700 font-semibold">
+                    <span className="text-xs bg-white/5 border border-white/10 px-2 py-1 rounded-full text-slate-300 font-mono">
                       {project.company}
                     </span>
                   )}
                 </div>
-                <h3 className="text-2xl font-semibold mb-2 text-slate-800">{project.title}</h3>
-                {project.date && <p className="text-sm text-slate-500 mb-3">{project.date}</p>}
+                <div className="flex items-center gap-2 mb-1">
+                  <h3 className="text-xl font-semibold text-white">{project.title}</h3>
+                  {project.link && (
+                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-cyan-400">
+                      <ExternalLink size={16} />
+                    </a>
+                  )}
+                </div>
+                {project.date && <p className="text-xs text-slate-500 font-mono mb-3">{project.date}</p>}
                 <div className="flex flex-wrap gap-2 mb-4">
                   {project.tech.map((tech, i) => (
-                    <span key={i} className="text-xs bg-white/80 px-3 py-1 rounded-full text-slate-700 border border-emerald-200">
+                    <span key={i} className="text-xs bg-cyan-400/10 text-cyan-300 px-3 py-1 rounded-full border border-cyan-400/20">
                       {tech}
                     </span>
                   ))}
                 </div>
-                <p className="text-slate-600 mb-4">{project.description}</p>
-                <ul className="space-y-2 text-sm text-slate-500">
+                <p className="text-slate-400 text-sm mb-4">{project.description}</p>
+                <ul className="space-y-2 text-sm text-slate-500 mt-auto">
                   {project.features.map((feature, i) => (
-                    <li key={i}>• {feature}</li>
+                    <li key={i} className="flex gap-2">
+                      <span className="text-cyan-400/70">&raquo;</span>
+                      <span>{feature}</span>
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -276,22 +409,23 @@ export default function Portfolio() {
       </section>
 
       {/* Skills Section */}
-      <section className="py-20 px-6 bg-white/50">
+      <section id="skills" className="py-24 px-6 border-t border-white/5 bg-white/[0.02]">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold mb-12 text-center bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-            Skills & Technologies
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              "TypeScript", "JavaScript", "Python", "Java",
-              "C++", "React", "Angular", "Django",
-              "SQL", "Git", "APIs", "OOP"
-            ].map((skill, index) => (
-              <div
-                key={index}
-                className="bg-white/80 backdrop-blur-sm rounded-lg p-4 text-center border border-emerald-100 hover:border-emerald-400 hover:shadow-lg hover:scale-105 transition-all"
-              >
-                <span className="font-semibold text-slate-700">{skill}</span>
+          <SectionHeading eyebrow="04" title="Skills" />
+          <div className="grid sm:grid-cols-2 gap-8">
+            {Object.entries(SKILLS).map(([category, items]) => (
+              <div key={category}>
+                <h3 className="text-sm font-mono text-cyan-400 mb-3 uppercase tracking-wide">{category}</h3>
+                <div className="flex flex-wrap gap-2">
+                  {items.map((skill) => (
+                    <span
+                      key={skill}
+                      className="text-sm bg-slate-900/60 border border-white/10 px-3 py-1.5 rounded-lg text-slate-300 hover:border-cyan-400/40 hover:text-white transition-colors"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
@@ -299,47 +433,52 @@ export default function Portfolio() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-8 bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-            Let's Connect
-          </h2>
-          <p className="text-xl text-slate-600 mb-12">
-            I'm always open to new opportunities and collaborations. Feel free to reach out!
+      <section id="contact" className="py-24 px-6 border-t border-white/5">
+        <div className="max-w-2xl mx-auto text-center">
+          <SectionHeading eyebrow="05" title="Let's Connect" center />
+          <p className="text-lg text-slate-400 mb-10">
+            I'm actively looking for software engineering internships and new-grad roles in NYC.
+            Feel free to reach out &mdash; I'd love to talk.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
             <a
               href="mailto:brady.d.deschamps@gmail.com"
-              className="flex items-center space-x-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-8 py-4 rounded-full hover:scale-105 hover:shadow-lg transition-all"
+              className="flex items-center gap-2 bg-cyan-400 text-slate-950 font-semibold px-8 py-3.5 rounded-md hover:bg-cyan-300 transition-colors w-full sm:w-auto justify-center"
             >
-              <Mail size={20} />
-              <span>Email Me</span>
+              <Mail size={18} />
+              brady.d.deschamps@gmail.com
             </a>
             <a
-              className="flex items-center space-x-2 bg-emerald-100 text-emerald-700 px-8 py-4 rounded-full hover:bg-emerald-200 transition-all"
+              href="https://www.linkedin.com/in/brady-d-deschamps/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 border border-white/15 text-slate-200 font-semibold px-8 py-3.5 rounded-md hover:border-cyan-400/60 hover:text-white transition-colors w-full sm:w-auto justify-center"
             >
+              <Linkedin size={18} />
+              LinkedIn
             </a>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-6 border-t border-emerald-100 bg-white/50">
-        <div className="max-w-6xl mx-auto text-center text-slate-500">
-          <p>© 2025 Brady Deschamps. Built with React and Tailwind CSS.</p>
+      <footer className="py-8 px-6 border-t border-white/5">
+        <div className="max-w-6xl mx-auto text-center text-slate-600 text-sm font-mono">
+          <p>&copy; 2026 Brady Deschamps &middot; Built with React &amp; Tailwind CSS</p>
         </div>
       </footer>
+    </div>
+  );
+}
 
-      <style jsx>{`
-        @keyframes gradient {
-          0%, 100% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-        }
-        .animate-gradient {
-          background-size: 200% 200%;
-          animation: gradient 3s ease infinite;
-        }
-      `}</style>
+function SectionHeading({ eyebrow, title, center = false }) {
+  return (
+    <div className={`mb-12 ${center ? 'text-center' : ''}`}>
+      <span className="font-mono text-cyan-400 text-sm">{eyebrow}</span>
+      <h2 className={`text-3xl md:text-4xl font-bold text-white mt-2 flex items-center gap-4 ${center ? 'justify-center' : ''}`}>
+        {title}
+        <span className="h-px flex-1 bg-white/10 max-w-[120px]" />
+      </h2>
     </div>
   );
 }
