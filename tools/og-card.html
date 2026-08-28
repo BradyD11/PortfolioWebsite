@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Martian+Mono:wght@200..500&display=swap" rel="stylesheet" />
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:1200px; height:630px; overflow:hidden; position:relative;
+    background:#000; color:#f5f5f4;
+    font-family:'Manrope', sans-serif; -webkit-font-smoothing:antialiased;
+  }
+  .field { position:absolute; inset:0; }
+  .scrim {
+    position:absolute; inset:0;
+    background:linear-gradient(100deg, rgba(0,0,0,.96) 0%, rgba(0,0,0,.88) 36%, rgba(0,0,0,.3) 64%, rgba(0,0,0,0) 86%);
+  }
+  .content { position:absolute; left:72px; top:0; height:630px; width:620px;
+             display:flex; flex-direction:column; justify-content:center; }
+  h1 { font-size:34px; font-weight:400; letter-spacing:.22em; text-transform:uppercase;
+       font-family:'Martian Mono', monospace; }
+  p.pitch { margin-top:34px; font-size:42px; font-weight:200; line-height:1.16; letter-spacing:-.02em; }
+  .status { margin-top:40px; display:flex; align-items:center; gap:14px; }
+  .dot { width:11px; height:11px; border-radius:99px; background:#ffa23a; flex:none;
+         box-shadow:0 0 0 6px rgba(255,162,58,.16); }
+  .status span { font-family:'Martian Mono', monospace; font-size:17px; letter-spacing:.14em;
+                 text-transform:uppercase; color:#a1a19e; }
+  .foot { position:absolute; left:72px; bottom:52px; display:flex; gap:26px; align-items:center; }
+  .foot span { font-family:'Martian Mono', monospace; font-size:15px; letter-spacing:.13em;
+               text-transform:uppercase; color:#7e7e7a; }
+  .rule { position:absolute; left:72px; bottom:104px; width:620px; height:1px;
+          background:linear-gradient(90deg, rgba(255,255,255,.2), rgba(255,255,255,0)); }
+  .planet {
+    position:absolute; left:750px; top:105px; width:420px; height:420px; border-radius:50%;
+    background:
+      radial-gradient(circle at 29% 25%, rgba(220,233,255,.97) 0%, rgba(150,180,235,.46) 17%,
+                      rgba(78,102,148,.17) 38%, rgba(26,34,52,.04) 58%, rgba(20,26,40,0) 72%),
+      #050609;
+  }
+  .halo {
+    position:absolute; left:706px; top:61px; width:508px; height:508px; border-radius:50%;
+    background:radial-gradient(circle, rgba(157,190,255,0) 41%, rgba(157,190,255,.15) 43%,
+                               rgba(120,150,215,.04) 62%, rgba(120,150,215,0) 78%);
+  }
+</style>
+</head>
+<body>
+  <svg class="field" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+    <g fill="#e2e8f6" id="stars"></g>
+    <g fill="none" stroke-width="1">
+      <ellipse cx="960" cy="315" rx="362" ry="252" stroke="rgba(157,190,255,.34)" transform="rotate(-13 960 315)"/>
+      <ellipse cx="960" cy="315" rx="300" ry="206" stroke="rgba(245,245,244,.20)" transform="rotate(11 960 315)"/>
+      <ellipse cx="936" cy="315" rx="404" ry="288" stroke="rgba(255,162,58,.36)"  transform="rotate(-26 936 315)"/>
+    </g>
+    <circle cx="654" cy="452" r="4.2" fill="#ffa23a"/>
+    <circle cx="716" cy="196" r="3.6" fill="#9dbeff"/>
+  </svg>
+  <div class="halo"></div>
+  <div class="planet"></div>
+  <div class="scrim"></div>
+
+  <div class="content">
+    <h1>Brady Deschamps</h1>
+    <p class="pitch">I build the infrastructure behind mission visualization.</p>
+    <div class="status">
+      <div class="dot"></div>
+      <span>Available &middot; Summer 2027</span>
+    </div>
+  </div>
+
+  <div class="rule"></div>
+  <div class="foot">
+    <span>bradydeschamps.netlify.app</span>
+    <span style="color:#4a4a48">/</span>
+    <span>Software Engineer</span>
+  </div>
+
+  <script>
+    // Deterministic sky, same generator as the site's hero field.
+    let seed = 20270517;
+    const rand = () => {
+      seed = (seed + 0x6d2b79f5) | 0;
+      let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+    const g = document.getElementById('stars');
+    let out = '';
+    for (let i = 0; i < 190; i++) {
+      const x = (rand() * 1200).toFixed(1);
+      const y = (rand() * 630).toFixed(1);
+      const s = (rand() * 1.5 + 0.6).toFixed(2);
+      const a = (rand() * 0.5 + 0.12).toFixed(2);
+      out += `<rect x="${x}" y="${y}" width="${s}" height="${s}" opacity="${a}"/>`;
+    }
+    g.innerHTML = out;
+  </script>
+</body>
+</html>

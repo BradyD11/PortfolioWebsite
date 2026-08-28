@@ -1,345 +1,508 @@
-import React, { useState, useEffect } from 'react';
-import { Github, Linkedin, Mail, ExternalLink, Code, Briefcase, GraduationCap, Award, ChevronDown } from 'lucide-react';
+import { useEffect, useState } from 'react'
+import { ArrowDownToLine, ArrowUpRight, Github, Linkedin, Mail } from 'lucide-react'
+import OrbitalField from './components/OrbitalField'
+import TrajectoryPlot from './components/TrajectoryPlot'
+import PipelineDiagram from './components/PipelineDiagram'
+import Timeline from './components/Timeline'
+import { ME, VITALS, ROLES, PROJECTS, ALSO, SKILLS, HONOURS } from './data'
 
-export default function Portfolio() {
-  const [activeSection, setActiveSection] = useState('home');
-  const [isScrolled, setIsScrolled] = useState(false);
+const NAV = [
+  ['Work', 'work'],
+  ['Experience', 'experience'],
+  ['Background', 'background'],
+  ['Contact', 'contact'],
+]
+
+const slug = (s) => s.replace(/\W+/g, '-').toLowerCase()
+
+/** Reveals content once, on entry. Content is visible by default without JS. */
+function useReveal() {
+  useEffect(() => {
+    const nodes = document.querySelectorAll('[data-reveal]')
+    if (!('IntersectionObserver' in window)) {
+      nodes.forEach((n) => n.classList.add('is-in'))
+      return
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-in')
+            io.unobserve(entry.target)
+          }
+        })
+      },
+      { rootMargin: '0px 0px -12% 0px', threshold: 0.06 }
+    )
+    nodes.forEach((n) => io.observe(n))
+    return () => io.disconnect()
+  }, [])
+}
+
+function SectionHead({ id, children, aside }) {
+  return (
+    <div className="mb-14 flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3" data-reveal>
+      <h2
+        id={id}
+        className="text-[clamp(1.75rem,3.4vw,2.75rem)] font-light leading-[1.08] tracking-[-0.015em]"
+      >
+        {children}
+      </h2>
+      {aside && <p className="label">{aside}</p>}
+    </div>
+  )
+}
+
+export default function App() {
+  const [scrolled, setScrolled] = useState(false)
+  useReveal()
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const scrollToSection = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      setActiveSection(id);
-    }
-  };
+    const onScroll = () => setScrolled(window.scrollY > 24)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50 to-slate-100 text-slate-900">
-      {/* Navigation */}
-      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-lg' : 'bg-transparent'}`}>
-        <div className="max-w-6xl mx-auto px-6 py-4">
-          <div className="flex justify-between items-center">
-            <div className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-                Brady Deschamps
-            </div>
-            <div className="hidden md:flex space-x-8">
-              {['home', 'about', 'experience', 'projects', 'contact'].map((section) => (
-                <button
-                  key={section}
-                  onClick={() => scrollToSection(section)}
-                  className={`capitalize hover:text-emerald-600 transition-colors ${activeSection === section ? 'text-emerald-600 font-semibold' : 'text-slate-700'}`}
-                >
-                  {section}
-                </button>
+    <>
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-5 focus:top-5 focus:z-[100] focus:bg-signal focus:px-4 focus:py-2 focus:font-data focus:text-[11px] focus:uppercase focus:tracking-wider2 focus:text-black"
+      >
+        Skip to content
+      </a>
+
+      {/* ---------------------------------------------------------------- nav */}
+      <header
+        className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${
+          scrolled ? 'border-b border-hair bg-black/72 backdrop-blur-xl' : 'border-b border-transparent'
+        }`}
+      >
+        <nav className="shell flex h-16 items-center justify-between gap-6">
+          <a
+            href="#main"
+            className="font-data text-[12px] font-normal uppercase tracking-widest2 text-ink transition-colors hover:text-signal sm:text-[13px]"
+          >
+            Brady Deschamps
+          </a>
+
+          <div className="flex items-center gap-7">
+            <ul className="hidden items-center gap-7 md:flex">
+              {NAV.map(([label, id]) => (
+                <li key={id}>
+                  <a
+                    href={`#${id}`}
+                    className="label transition-colors hover:!text-ink"
+                  >
+                    {label}
+                  </a>
+                </li>
               ))}
-            </div>
+            </ul>
+            <a
+              href={ME.resume}
+              download
+              className="group inline-flex items-center gap-2 border border-hair-strong px-3.5 py-2 font-data text-[10px] uppercase tracking-wider2 text-ink transition-colors duration-300 hover:border-signal hover:text-signal sm:text-[11px]"
+            >
+              <ArrowDownToLine size={13} strokeWidth={1.5} />
+              Résumé
+            </a>
           </div>
-        </div>
-      </nav>
+        </nav>
+      </header>
 
-      {/* Hero Section */}
-      <section id="home" className="min-h-screen flex items-center justify-center px-6 relative">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute w-96 h-96 bg-emerald-200/40 rounded-full blur-3xl top-20 left-20 animate-pulse"></div>
-          <div className="absolute w-96 h-96 bg-teal-200/40 rounded-full blur-3xl bottom-20 right-20 animate-pulse delay-1000"></div>
-        </div>
-        <div className="z-10 max-w-6xl w-full">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* Photo Section */}
-            <div className="flex justify-center md:justify-end order-1 md:order-2">
-              <div className="relative">
-                {/* Main photo placeholder */}
-                <div className="w-80 h-80 rounded-2xl bg-gradient-to-br from-emerald-100 to-teal-100 border-4 border-white shadow-2xl overflow-hidden">
-                  <div className="w-full h-full flex items-center justify-center text-slate-400">
-                    <img src="/SeniorPhoto.jpeg" alt="Brady Deschamps" className="w-full h-full object-cover" />
-                  </div>
-                </div>
-                {/* Decorative element */}
-                <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-2xl -z-10"></div>
-                <div className="absolute -top-4 -left-4 w-24 h-24 bg-gradient-to-br from-emerald-300 to-teal-300 rounded-full -z-10"></div>
-              </div>
-            </div>
+      <main id="main">
+        {/* ------------------------------------------------------------- hero */}
+        <section className="relative min-h-[100svh] overflow-hidden">
+          <OrbitalField className="absolute inset-0 h-full w-full" />
 
-            {/* Text Section */}
-            <div className="text-center md:text-left order-2 md:order-1">
-              <div className="mb-6">
-                <span className="inline-block px-4 py-2 bg-emerald-100 rounded-full text-emerald-700 text-sm font-semibold mb-4">
-                  Software Developer
-                </span>
-              </div>
-              <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-600 bg-clip-text text-transparent animate-gradient">
-                Brady Deschamps
+          {/* Scrim: keeps the statement at full contrast over the field. */}
+          <div
+            className="pointer-events-none absolute inset-0 hidden lg:block"
+            style={{
+              background:
+                'linear-gradient(100deg, rgba(0,0,0,0.94) 0%, rgba(0,0,0,0.86) 34%, rgba(0,0,0,0.34) 62%, rgba(0,0,0,0) 88%)',
+            }}
+          />
+          <div
+            className="pointer-events-none absolute inset-0 lg:hidden"
+            style={{
+              background:
+                'linear-gradient(to bottom, rgba(0,0,0,0.93) 0%, rgba(0,0,0,0.88) 46%, rgba(0,0,0,0.62) 72%, rgba(0,0,0,0.42) 100%)',
+            }}
+          />
+          <div
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-48"
+            style={{ background: 'linear-gradient(to top, #000 6%, rgba(0,0,0,0))' }}
+          />
+
+          <div className="shell relative flex min-h-[100svh] flex-col justify-center pt-28 pb-16">
+            {/* Content holds the left half; the field keeps the right. */}
+            <div className="w-full lg:max-w-[700px]">
+              <h1 className="max-w-[20ch] text-[clamp(2.125rem,4.6vw,3.75rem)] font-extralight leading-[1.06] tracking-[-0.02em] text-ink">
+                I build the infrastructure behind mission visualization.
               </h1>
-              <p className="text-xl md:text-2xl text-slate-600 mb-8 max-w-xl">
-                Computer Science student at ASU, passionate about building impactful software solutions.
-              </p>
-              <div className="flex justify-center md:justify-start space-x-4 mb-12">
-                <a href="mailto:brady.d.deschamps@gmail.com" className="p-3 bg-emerald-100 hover:bg-emerald-200 rounded-full transition-all hover:scale-110 text-emerald-700">
-                  <Mail size={24} />
-                </a>
-                <a href="https://github.com/BradyD11" target="_blank" rel="noopener noreferrer" className="p-3 bg-emerald-100 hover:bg-emerald-200 rounded-full transition-all hover:scale-110 text-emerald-700">
-                  <Github size={24} />
-                </a>
-                <a href="https://www.linkedin.com/in/brady-d-deschamps/" target="_blank" rel="noopener noreferrer" className="p-3 bg-emerald-100 hover:bg-emerald-200 rounded-full transition-all hover:scale-110 text-emerald-700">
-                  <Linkedin size={24} />
-                </a>
-              </div>
-              <button
-                onClick={() => scrollToSection('about')}
-                className="animate-bounce text-emerald-600"
+
+            <p className="mt-7 max-w-[52ch] text-[clamp(0.9688rem,1.15vw,1.0625rem)] font-light leading-[1.65] text-ink-2">
+              Software engineer at{' '}
+              <span className="text-ink">ASU’s Luminosity Lab</span>, where I built the
+              NASA JPL data pipeline powering{' '}
+              <a
+                href="https://orbitscape.space"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sky underline decoration-sky/35 underline-offset-4 transition-colors hover:decoration-sky"
               >
-                <ChevronDown size={32} />
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section id="about" className="py-20 px-6">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold mb-12 text-center bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-            About Me
-          </h2>
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-emerald-100 shadow-lg">
-            <div className="flex items-start space-x-4 mb-6">
-              <GraduationCap className="text-emerald-600 flex-shrink-0" size={32} />
-              <div>
-                <h3 className="text-2xl font-semibold mb-2 text-slate-800">Education</h3>
-                <p className="text-slate-600">Arizona State University | Computer Science</p>
-                <p className="text-emerald-600 font-semibold">GPA: 4.0 | Aug 2024 - May 2027</p>
-              </div>
-            </div>
-            <div className="flex items-start space-x-4 mb-6">
-              <Award className="text-teal-600 flex-shrink-0" size={32} />
-              <div>
-                <h3 className="text-2xl font-semibold mb-2 text-slate-800">Achievements</h3>
-                <ul className="text-slate-600 space-y-1">
-                  <li>• Grand Challenges Scholars Program</li>
-                  <li>• Tillman Leadership Scholar</li>
-                  <li>• SCAI Peer Mentor</li>
-                </ul>
-              </div>
-            </div>
-            <p className="text-slate-600 leading-relaxed">
-              Aspiring Software Developer with hands-on experience from an internship at Pivotal Energy Solutions, 
-              where I improved unit test coverage and reduced technical debt. I'm passionate about cybersecurity, 
-              AI, and building innovative solutions that make a difference.
+                Orbitscape
+              </a>{' '}
+              and the ML pipeline that runs on ASU’s Sol supercomputer. Two years shipping
+              production code while enrolled full-time.
             </p>
-          </div>
-        </div>
-      </section>
 
-      {/* Experience Section */}
-      <section id="experience" className="py-20 px-6 bg-white/50">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-4xl font-bold mb-12 text-center bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-            Experience
-          </h2>
-          <div className="space-y-8">
-            {[
-              {
-                title: "Software Engineer Intern",
-                company: "Pivotal Energy Solutions",
-                date: "Apr 2024 - Present",
-                location: "Gilbert, AZ",
-                points: [
-                  "Increased unit test code coverage by 90% across 20+ interconnected modules by writing comprehensive test suites in Python",
-                  "Refactored legacy code and removed over 5000 lines of outdated code, reducing technical debt"
-                ]
-              },
-              {
-                title: "Cybersecurity Research Assistant",
-                company: "Arizona State University",
-                date: "Nov 2024 - Present",
-                location: "Tempe, AZ",
-                points: [
-                  "Developed a virtual test environment in Pwn College to collect and analyze attacker data",
-                  "Provided insights for building an attacker-personalized AI model"
-                ]
-              },
-              {
-                title: "SCAI Peer Mentor",
-                company: "Arizona State University",
-                date: "Aug 2025 - Present",
-                location: "Tempe, AZ",
-                points: [
-                  "Guided students in software development and cybersecurity career paths",
-                  "Provided academic and professional advice leading to improved student performance"
-                ]
-              },
-              {
-                title: "Code Coach",
-                company: "theCoderSchool",
-                date: "Jan 2024 - Aug 2024",
-                location: "Gilbert, AZ",
-                points: [
-                  "Taught programming concepts (Python, JavaScript, Scratch) to students aged 7-17",
-                  "Fostered a positive learning environment encouraging creativity and problem-solving"
-                ]
-              }
-            ].map((job, index) => (
-              <div key={index} className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-emerald-100 hover:border-emerald-300 hover:shadow-lg transition-all">
-                <div className="flex items-start space-x-4">
-                  <Briefcase className="text-emerald-600 flex-shrink-0 mt-1" size={24} />
-                  <div className="flex-1">
-                    <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
-                      <div>
-                        <h3 className="text-xl font-semibold text-emerald-700">{job.title}</h3>
-                        <p className="text-lg text-slate-800">{job.company}</p>
-                      </div>
-                      <div className="text-slate-500 text-sm md:text-right">
-                        <p>{job.date}</p>
-                        <p>{job.location}</p>
-                      </div>
+            {/* Signature block — face, name, and what he is looking for. */}
+            <div className="mt-9 flex items-center gap-4 sm:gap-5">
+              <img
+                src="/headshot.jpg"
+                width="88"
+                height="88"
+                alt="Brady Deschamps"
+                className="h-[72px] w-[72px] shrink-0 border border-hair-strong object-cover object-top sm:h-[88px] sm:w-[88px]"
+                style={{ filter: 'contrast(1.04) saturate(0.86) brightness(0.97)' }}
+              />
+              <div>
+                <p className="text-[1.0625rem] font-normal tracking-[0.005em] text-ink sm:text-[1.1875rem]">
+                  {ME.name}
+                </p>
+                <p className="mt-2 flex items-center gap-2.5">
+                  <span className="relative flex h-[7px] w-[7px] shrink-0">
+                    <span className="beacon absolute inline-flex h-full w-full rounded-full bg-signal" />
+                    <span className="relative inline-flex h-[7px] w-[7px] rounded-full bg-signal" />
+                  </span>
+                  <span className="whitespace-nowrap font-data text-[10px] uppercase tracking-wider2 text-ink-2 sm:text-[11px]">
+                    Available · Summer 2027
+                  </span>
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+              <a
+                href={ME.resume}
+                download
+                className="inline-flex items-center justify-center gap-2.5 bg-signal px-6 py-3.5 font-data text-[11px] uppercase tracking-wider2 text-black transition-transform duration-300 ease-out hover:-translate-y-0.5 sm:justify-start"
+              >
+                <ArrowDownToLine size={14} strokeWidth={1.75} />
+                Download résumé
+              </a>
+              <a
+                href={`mailto:${ME.email}`}
+                className="inline-flex items-center justify-center gap-2.5 border border-hair-strong px-6 py-3.5 font-data text-[11px] uppercase tracking-wider2 text-ink transition-colors duration-300 hover:border-ink sm:justify-start"
+              >
+                <Mail size={14} strokeWidth={1.5} />
+                Email me
+              </a>
+            </div>
+
+            {/* Vitals — the numbers a screener checks first. */}
+            <dl className="mt-12 grid grid-cols-2 gap-x-8 gap-y-5 border-t border-hair pt-7 sm:grid-cols-4">
+              {VITALS.map((v) => (
+                <div key={v.label}>
+                  <dt className="label">{v.label}</dt>
+                  <dd className="mt-2 whitespace-nowrap font-data text-[11px] tracking-[0.01em] text-ink tnum">
+                    {v.value}
+                  </dd>
+                </div>
+                ))}
+              </dl>
+            </div>
+          </div>
+        </section>
+
+        {/* ------------------------------------------------------------- work */}
+        <section id="work" className="scroll-mt-24 py-28 sm:py-36">
+          <div className="shell">
+            <SectionHead aside="Two systems in production">
+              What I’m building
+            </SectionHead>
+
+            <div className="space-y-28 sm:space-y-36">
+              {PROJECTS.map((p, i) => (
+                <article key={p.id} data-reveal className="grid gap-10 lg:grid-cols-12 lg:gap-14">
+                  <div
+                    className={`lg:col-span-7 ${i % 2 === 1 ? 'lg:order-2' : ''}`}
+                  >
+                    <div className="relative aspect-[520/348] w-full overflow-hidden border border-hair bg-ground-raised">
+                      <div
+                        className="pointer-events-none absolute inset-0"
+                        style={{
+                          background:
+                            'radial-gradient(120% 100% at 50% 0%, rgba(157,190,255,0.05), transparent 62%)',
+                        }}
+                      />
+                      {p.id === 'orbitscape' ? <TrajectoryPlot /> : <PipelineDiagram />}
                     </div>
-                    <ul className="space-y-2 text-slate-600">
-                      {job.points.map((point, i) => (
-                        <li key={i}>• {point}</li>
+                  </div>
+
+                  <div className={`lg:col-span-5 ${i % 2 === 1 ? 'lg:order-1' : ''}`}>
+                    <p className="label">{p.kind}</p>
+                    <h3 className="mt-4 text-[clamp(1.5rem,2.6vw,2.125rem)] font-light leading-tight tracking-[-0.015em]">
+                      {p.name}
+                    </h3>
+                    <p className="mt-4 text-[1.0625rem] font-light leading-[1.6] text-ink">
+                      {p.line}
+                    </p>
+                    <p className="mt-5 text-[0.9375rem] font-light leading-[1.72] text-ink-2">
+                      {p.body}
+                    </p>
+
+                    <dl className="mt-8 space-y-2.5 border-t border-hair pt-6">
+                      {p.facts.map(([k, v]) => (
+                        <div key={k} className="flex items-baseline justify-between gap-6">
+                          <dt className="label">{k}</dt>
+                          <dd className="font-data text-[11px] tracking-[0.02em] text-ink-2">{v}</dd>
+                        </div>
+                      ))}
+                    </dl>
+
+                    <ul className="mt-7 flex flex-wrap gap-x-2 gap-y-2">
+                      {p.stack.map((s) => (
+                        <li
+                          key={s}
+                          className="border border-hair px-2.5 py-1 font-data text-[10px] tracking-[0.06em] text-ink-3"
+                        >
+                          {s}
+                        </li>
                       ))}
                     </ul>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* Projects Section */}
-      <section id="projects" className="py-20 px-6">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-4xl font-bold mb-12 text-center bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-            Featured Projects
-          </h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            {[
-              {
-                title: "CrisisConnect",
-                date: "Sep 2025",
-                tech: ["React", "TypeScript", "Google Maps API", "Tailwind CSS"],
-                description: "Full-stack volunteer coordination platform connecting users with local crisis response opportunities",
-                features: [
-                  "Real-time search and filtering",
-                  "Interactive mapping with Google Maps API",
-                  "Location-based discovery"
-                ]
-              },
-              {
-                title: "Datatable Advanced Query",
-                company: "ICManage",
-                tech: ["Python", "Django", "SQL"],
-                description: "Advanced query system with SQL-like syntax for database operations",
-                features: [
-                  "Implemented lexer and parser for SQL-like search syntax",
-                  "Support for boolean and comparison operators",
-                  "Django ORM integration"
-                ]
-              }
-            ].map((project, index) => (
-              <div key={index} className="bg-gradient-to-br from-emerald-50 to-teal-50 backdrop-blur-sm rounded-xl p-6 border border-emerald-200 hover:border-emerald-400 hover:shadow-xl transition-all hover:scale-105">
-                <div className="flex items-start justify-between mb-4">
-                  <Code className="text-emerald-600" size={32} />
-                  {project.company && (
-                    <span className="text-xs bg-emerald-200 px-2 py-1 rounded-full text-emerald-700 font-semibold">
-                      {project.company}
-                    </span>
-                  )}
-                </div>
-                <h3 className="text-2xl font-semibold mb-2 text-slate-800">{project.title}</h3>
-                {project.date && <p className="text-sm text-slate-500 mb-3">{project.date}</p>}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tech.map((tech, i) => (
-                    <span key={i} className="text-xs bg-white/80 px-3 py-1 rounded-full text-slate-700 border border-emerald-200">
-                      {tech}
-                    </span>
+                    {p.href && (
+                      <a
+                        href={p.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group mt-8 inline-flex items-center gap-2 font-data text-[11px] uppercase tracking-wider2 text-sky transition-colors hover:text-ink"
+                      >
+                        {p.hrefLabel}
+                        <ArrowUpRight
+                          size={14}
+                          strokeWidth={1.5}
+                          className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                        />
+                      </a>
+                    )}
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            {/* Also built — deliberately quieter than the two above. */}
+            <div className="mt-28 border-t border-hair pt-10 sm:mt-36" data-reveal>
+              <p className="label mb-8">Also built</p>
+              <ul className="grid gap-x-10 gap-y-9 sm:grid-cols-3">
+                {ALSO.map((a) => (
+                  <li key={a.name}>
+                    <h4 className="text-[1.0625rem] font-normal tracking-[-0.005em] text-ink">
+                      {a.name}
+                    </h4>
+                    <p className="mt-2.5 text-[0.9375rem] font-light leading-[1.6] text-ink-2">
+                      {a.line}
+                    </p>
+                    <p className="mt-3 font-data text-[10px] tracking-[0.06em] text-ink-3">{a.stack}</p>
+                    {a.href && (
+                      <a
+                        href={a.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group mt-3 inline-flex items-center gap-1.5 font-data text-[10px] uppercase tracking-wider2 text-sky transition-colors hover:text-ink"
+                      >
+                        {a.hrefLabel}
+                        <ArrowUpRight size={12} strokeWidth={1.5} />
+                      </a>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        {/* ------------------------------------------------------- experience */}
+        <section id="experience" className="scroll-mt-24 border-t border-hair py-28 sm:py-36">
+          <div className="shell">
+            <SectionHead aside="Continuously employed since April 2024">
+              Experience
+            </SectionHead>
+
+            <div data-reveal>
+              <Timeline />
+            </div>
+
+            <ol className="mt-16 space-y-16 sm:mt-20">
+              {ROLES.map((role) => (
+                <li
+                  key={role.org}
+                  id={`role-${slug(role.org)}`}
+                  className="scroll-mt-28 grid gap-x-10 gap-y-4 border-t border-hair pt-8 lg:grid-cols-12"
+                  data-reveal
+                >
+                  <div className="lg:col-span-4">
+                    <h3 className="text-[1.25rem] font-normal tracking-[-0.01em] text-ink">
+                      {role.title}
+                    </h3>
+                    <p className="mt-1.5 text-[0.9375rem] font-light text-ink-2">{role.org}</p>
+                    <p className="mt-3 font-data text-[10px] uppercase tracking-wider2 text-ink-3 tnum">
+                      {role.span}
+                    </p>
+                    <p className="mt-1.5 font-data text-[10px] tracking-[0.06em] text-ink-3">
+                      {role.place}
+                    </p>
+                  </div>
+                  <ul className="space-y-4 lg:col-span-8">
+                    {role.points.map((pt) => (
+                      <li
+                        key={pt}
+                        className="relative pl-6 text-[0.9375rem] font-light leading-[1.72] text-ink-2"
+                      >
+                        <span
+                          aria-hidden="true"
+                          className="absolute left-0 top-[0.62em] h-px w-3 bg-hair-strong"
+                        />
+                        {pt}
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        {/* ------------------------------------------------------- background */}
+        <section id="background" className="scroll-mt-24 border-t border-hair py-28 sm:py-36">
+          <div className="shell grid gap-16 lg:grid-cols-12 lg:gap-14">
+            <div className="lg:col-span-5">
+              <SectionHead>Background</SectionHead>
+
+              <div data-reveal>
+                <h3 className="text-[1.25rem] font-normal text-ink">Arizona State University</h3>
+                <p className="mt-2 text-[0.9375rem] font-light leading-[1.7] text-ink-2">
+                  Barrett, The Honors College — BS in Computer Science, graduating May 2027,
+                  continuing straight into ASU’s accelerated master’s for an MS in May 2028.
+                </p>
+
+                <dl className="mt-7 space-y-2.5 border-t border-hair pt-6">
+                  {[
+                    ['GPA', '4.00'],
+                    ['BS conferred', 'May 2027'],
+                    ['MS conferred', 'May 2028'],
+                  ].map(([k, v]) => (
+                    <div key={k} className="flex items-baseline justify-between gap-6">
+                      <dt className="label">{k}</dt>
+                      <dd className="font-data text-[11px] tracking-[0.02em] text-ink tnum">{v}</dd>
+                    </div>
                   ))}
-                </div>
-                <p className="text-slate-600 mb-4">{project.description}</p>
-                <ul className="space-y-2 text-sm text-slate-500">
-                  {project.features.map((feature, i) => (
-                    <li key={i}>• {feature}</li>
+                </dl>
+
+                <ul className="mt-10 space-y-4 border-t border-hair pt-6">
+                  {HONOURS.map(([name, org]) => (
+                    <li key={name}>
+                      <p className="text-[0.9375rem] font-normal text-ink">{name}</p>
+                      <p className="mt-1 font-data text-[10px] tracking-[0.06em] text-ink-3">{org}</p>
+                    </li>
                   ))}
                 </ul>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
+            </div>
 
-      {/* Skills Section */}
-      <section className="py-20 px-6 bg-white/50">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold mb-12 text-center bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-            Skills & Technologies
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              "TypeScript", "JavaScript", "Python", "Java",
-              "C++", "React", "Angular", "Django",
-              "SQL", "Git", "APIs", "OOP"
-            ].map((skill, index) => (
-              <div
-                key={index}
-                className="bg-white/80 backdrop-blur-sm rounded-lg p-4 text-center border border-emerald-100 hover:border-emerald-400 hover:shadow-lg hover:scale-105 transition-all"
+            <div className="lg:col-span-7" data-reveal>
+              <p className="label mb-8">Tools</p>
+              <dl className="space-y-8">
+                {SKILLS.map((s) => (
+                  <div key={s.group} className="grid gap-3 border-t border-hair pt-5 sm:grid-cols-4 sm:gap-6">
+                    <dt className="label sm:col-span-1">{s.group}</dt>
+                    <dd className="sm:col-span-3">
+                      <ul className="flex flex-wrap gap-x-5 gap-y-2">
+                        {s.items.map((item) => (
+                          <li key={item} className="text-[0.9375rem] font-light text-ink-2">
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </div>
+        </section>
+
+        {/* ---------------------------------------------------------- contact */}
+        <section id="contact" className="scroll-mt-24 border-t border-hair py-28 sm:py-36">
+          <div className="shell" data-reveal>
+            <h2 className="max-w-[16ch] text-[clamp(2rem,5vw,3.75rem)] font-extralight leading-[1.06] tracking-[-0.02em]">
+              Available for Summer 2027 internships.
+            </h2>
+            <p className="mt-7 max-w-[52ch] text-[1.0625rem] font-light leading-[1.62] text-ink-2">
+              If you are hiring software engineering interns for Summer 2027, I would like to
+              talk. The fastest route is email — I answer the same day.
+            </p>
+
+            <div className="mt-12 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+              <a
+                href={`mailto:${ME.email}`}
+                className="inline-flex items-center justify-center gap-2.5 bg-signal px-6 py-3.5 font-data text-[10px] uppercase tracking-wider2 text-black transition-transform duration-300 ease-out hover:-translate-y-0.5 sm:justify-start sm:text-[11px]"
               >
-                <span className="font-semibold text-slate-700">{skill}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+                <Mail size={14} strokeWidth={1.75} />
+                {ME.email}
+              </a>
+              <a
+                href={ME.resume}
+                download
+                className="inline-flex items-center justify-center gap-2.5 border border-hair-strong px-6 py-3.5 font-data text-[11px] uppercase tracking-wider2 text-ink transition-colors duration-300 hover:border-ink sm:justify-start"
+              >
+                <ArrowDownToLine size={14} strokeWidth={1.5} />
+                Download résumé
+              </a>
+            </div>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-20 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-8 bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-            Let's Connect
-          </h2>
-          <p className="text-xl text-slate-600 mb-12">
-            I'm always open to new opportunities and collaborations. Feel free to reach out!
+            <ul className="mt-12 flex flex-wrap gap-x-10 gap-y-4">
+              {[
+                ['LinkedIn', ME.linkedin, Linkedin],
+                ['GitHub', ME.github, Github],
+              ].map(([label, href, Icon]) => (
+                <li key={label}>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group inline-flex items-center gap-2.5 font-data text-[11px] uppercase tracking-wider2 text-ink-2 transition-colors hover:text-ink"
+                  >
+                    <Icon size={15} strokeWidth={1.5} />
+                    {label}
+                    <ArrowUpRight
+                      size={13}
+                      strokeWidth={1.5}
+                      className="text-ink-3 transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                    />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      </main>
+
+      <footer className="border-t border-hair py-10">
+        <div className="shell flex flex-wrap items-center justify-between gap-4">
+          <p className="font-data text-[10px] uppercase tracking-wider2 text-ink-3">
+            {ME.name} · {ME.location}
           </p>
-          <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
-            <a
-              href="mailto:brady.d.deschamps@gmail.com"
-              className="flex items-center space-x-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-8 py-4 rounded-full hover:scale-105 hover:shadow-lg transition-all"
-            >
-              <Mail size={20} />
-              <span>Email Me</span>
-            </a>
-            <a
-              className="flex items-center space-x-2 bg-emerald-100 text-emerald-700 px-8 py-4 rounded-full hover:bg-emerald-200 transition-all"
-            >
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="py-8 px-6 border-t border-emerald-100 bg-white/50">
-        <div className="max-w-6xl mx-auto text-center text-slate-500">
-          <p>© 2025 Brady Deschamps. Built with React and Tailwind CSS.</p>
+          <p className="font-data text-[10px] uppercase tracking-wider2 text-ink-3 tnum">
+            © 2026
+          </p>
         </div>
       </footer>
-
-      <style jsx>{`
-        @keyframes gradient {
-          0%, 100% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-        }
-        .animate-gradient {
-          background-size: 200% 200%;
-          animation: gradient 3s ease infinite;
-        }
-      `}</style>
-    </div>
-  );
+    </>
+  )
 }
