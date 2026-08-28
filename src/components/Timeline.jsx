@@ -16,7 +16,7 @@ const span = AXIS.end - AXIS.start
 const pct = (year) => ((year - AXIS.start) / span) * 100
 
 const BAR = {
-  signal: 'bg-signal',
+  signal: 'bg-signal-mark',
   sky: 'bg-sky',
   ink: 'bg-ink-2',
 }
@@ -52,11 +52,11 @@ export default function Timeline() {
           ))}
           {/* Today. The one line on the chart that is not a year. */}
           <div
-            className="absolute -top-6 bottom-0 w-px bg-signal/70"
+            className="absolute -top-6 bottom-0 w-px bg-signal-mark/70"
             style={{ left: `${pct(AXIS.now)}%` }}
           />
           <div
-            className="absolute -top-6 -translate-x-1/2 font-data text-[9px] tracking-widest2 text-signal"
+            className="absolute -top-6 -translate-x-1/2 font-data text-[9px] tracking-widest2 text-signal-mark"
             style={{ left: `${pct(AXIS.now)}%` }}
           >
             NOW
@@ -95,7 +95,7 @@ export default function Timeline() {
                     />
                     {current && (
                       <span
-                        className="absolute top-1/2 h-[7px] w-[7px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-signal"
+                        className="absolute top-1/2 h-[7px] w-[7px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-signal-mark"
                         style={{ left: `${to}%` }}
                       />
                     )}

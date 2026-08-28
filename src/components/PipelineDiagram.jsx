@@ -46,7 +46,7 @@ export default function PipelineDiagram() {
         const cell = cellsRef.current[i]
         if (!cell) continue
         const on = i < lit
-        cell.setAttribute('fill', on ? 'rgba(255,162,58,0.72)' : 'rgba(255,255,255,0.07)')
+        cell.setAttribute('fill', on ? 'rgba(99,198,155,0.78)' : 'rgba(255,255,255,0.07)')
       }
     }
 
@@ -128,8 +128,8 @@ export default function PipelineDiagram() {
 
       {/* Scoring pass */}
       <line x1="432" y1="150" x2="452" y2="150" stroke="rgba(255,255,255,0.22)" strokeWidth="1" />
-      <rect x="452" y="128" width="44" height="44" rx="22" fill="none" stroke="rgba(255,162,58,0.55)" strokeWidth="1" />
-      <text x="462" y="154" className="fill-[var(--signal)] font-data text-[8px] tracking-[0.1em]">
+      <rect x="452" y="128" width="44" height="44" rx="22" fill="none" stroke="rgba(99,198,155,0.6)" strokeWidth="1" />
+      <text x="462" y="154" className="fill-[var(--signal-mark)] font-data text-[8px] tracking-[0.1em]">
         SCORE
       </text>
 
@@ -137,16 +137,16 @@ export default function PipelineDiagram() {
       <path
         d="M474 172 V246 Q474 262 458 262 H198 Q182 262 182 246 V182"
         fill="none"
-        stroke="rgba(255,162,58,0.42)"
+        stroke="rgba(99,198,155,0.46)"
         strokeWidth="1"
         strokeDasharray="4 4"
       />
-      <path d="M182 176 l-3.5 7 h7 z" fill="rgba(255,162,58,0.7)" />
+      <path d="M182 176 l-3.5 7 h7 z" fill="rgba(99,198,155,0.75)" />
       <text x="286" y="282" className="fill-[var(--ink-3)] font-data text-[8px] tracking-[0.16em]">
         NEXT PARAMETERS
       </text>
 
-      <circle ref={pulseRef} cx="180" cy="150" r="3.2" fill="#ffa23a" />
+      <circle ref={pulseRef} cx="180" cy="150" r="3.2" fill="#63c69b" />
 
       <text x="30" y="316" className="fill-[var(--ink-3)] font-data text-[8px] tracking-[0.16em]">
         APPTAINER · REPRODUCIBLE PER NODE

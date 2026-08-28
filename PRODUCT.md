@@ -20,11 +20,16 @@ The site must answer four questions fast: who is this, what has he actually buil
 
 ## Positioning
 
-Brady's differentiator is that his work is **real infrastructure, not coursework**. He ships to production at an aerospace-visualization platform with public users, runs ML workloads on a university supercomputer, and has held a paid software engineering role for over two years while enrolled full-time. Most internship-candidate portfolios show class projects; this one shows systems in production.
+Brady positions as a **full-stack engineer who also builds the machine learning** — not as an aerospace specialist. The aerospace work is where that combination happens to be applied; it is evidence, not the identity. Confirmed with Brady 2026-08-28, correcting an earlier framing that led on orbital visualization alone.
+
+The differentiator is that his work is **real infrastructure, not coursework**: he ships applications front to back, runs ML workloads on a university supercomputer, and has held paid software engineering roles for over two years while enrolled full-time. Most internship-candidate portfolios show class projects; this one shows systems in production.
 
 Concretely:
-- **Orbitscape** (orbitscape.space) — a publicly deployed 3D orbital mission-visualization platform built by ASU's Luminosity Lab. Brady built the Python/pandas data pipeline connecting NASA JPL Horizons data sources to the platform, and is applying ML techniques to space-weather analysis within it.
-- **Sol ML inference pipeline** — an automated pipeline on ASU's Sol supercomputer orchestrating three sequential deep learning models via SLURM job arrays and Apptainer containers, with a feedback loop on output-scoring metrics that grades runs and directs subsequent parameters.
+**Full-stack evidence:** SMBC's port-tracking tool built front to back (React, Node, SQL, Nlyte NGage API); Pivotal's serializer validation refactored into a JSON REST API; 90% test-coverage increase across 20+ modules; CrisisConnect and sunpath in React/TypeScript.
+
+**Machine learning evidence:** the Sol inference pipeline (three sequential deep learning models, SLURM job arrays, Apptainer containers, a scoring feedback loop that directs the next run's parameters); a multithreaded PyTorch computer-vision detection system; ML applied to space-weather prediction inside Orbitscape.
+
+**Orbitscape** (orbitscape.space) — a publicly deployed orbital mission-visualization platform built by ASU's Luminosity Lab, and the only live product Brady can link. He built the Python/pandas pipeline connecting NASA JPL Horizons to it.
 
 ## Operating Context
 
@@ -43,6 +48,7 @@ The site is evaluated in a browser tab, often alongside a stack of other candida
 - Name: **Brady Deschamps**. Title framing: software engineer / CS student, not "Software Developer."
 - Binding visual reference supplied by the user: the **Orbitscape landing page** (orbitscape.space) — pure black canvas, white light-weight wide-tracked sans (Manrope / Inter), wireframe concentric-orbit motifs, real depth and space imagery. The portfolio should live in that visual family, since Orbitscape is his own work.
 - Direction confirmed: **dark, technical, high-craft**.
+- **Accent is dark green**, set by Brady 2026-08-28, replacing an earlier amber. Deep pine for fills, a lighter pine for marks. Cold blue stays as the "traversable" hue.
 - Headshot: a new professional headshot supplied by the user replaces `SeniorPhoto.jpeg`, kept in the hero at restrained scale.
 
 ## Evidence on Hand
@@ -54,6 +60,7 @@ The site is evaluated in a browser tab, often alongside a stack of other candida
 - Profiles: `github.com/BradyD11`, `linkedin.com/in/brady-d-deschamps/`, `brady.d.deschamps@gmail.com`
 - Verified résumé metrics available for use: 90% unit-test coverage increase across 20+ modules; 5,000+ lines of legacy code removed; 4.0 GPA.
 - Assets in `public/`: `Brady-Deschamps-Resume.pdf` (current), `headshot.jpg`, `favicon.svg`, `og.png`.
+- **`public/orbitscape.webp`** — a screenshot of the live orbitscape.space landing page, used as the Orbitscape project's visual. It is Brady's own project; the shot is of the public marketing page only.
 - **`public/og.png`** — the 1200×630 link-preview card. Rendered from `tools/og-card.html` via `tools/render-og.mjs`, not hand-drawn, so it is regenerable when the pitch line changes. Contains no photograph by design, so replacing `headshot.jpg` never leaves a stale face in the card.
 
 **Absences that must not be fabricated:**

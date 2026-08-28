@@ -3,19 +3,25 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      // `<alpha-value>` is what lets `bg-signal-mark/60` and friends compile.
+      // Handing Tailwind a whole var() colour instead makes those classes vanish
+      // silently, which is exactly the bug this shape prevents.
       colors: {
         ground: {
-          DEFAULT: 'var(--ground)',
-          raised: 'var(--ground-raised)',
-          sunk: 'var(--ground-sunk)',
+          DEFAULT: 'rgb(var(--ground-rgb) / <alpha-value>)',
+          raised: 'rgb(var(--ground-raised-rgb) / <alpha-value>)',
+          sunk: 'rgb(var(--ground-sunk-rgb) / <alpha-value>)',
         },
         ink: {
-          DEFAULT: 'var(--ink)',
-          2: 'var(--ink-2)',
-          3: 'var(--ink-3)',
+          DEFAULT: 'rgb(var(--ink-rgb) / <alpha-value>)',
+          2: 'rgb(var(--ink-2-rgb) / <alpha-value>)',
+          3: 'rgb(var(--ink-3-rgb) / <alpha-value>)',
         },
-        signal: { DEFAULT: 'var(--signal)', dim: 'var(--signal-dim)' },
-        sky: { DEFAULT: 'var(--sky)', dim: 'var(--sky-dim)' },
+        signal: {
+          DEFAULT: 'rgb(var(--signal-rgb) / <alpha-value>)',
+          mark: 'rgb(var(--signal-mark-rgb) / <alpha-value>)',
+        },
+        sky: 'rgb(var(--sky-rgb) / <alpha-value>)',
         hair: { DEFAULT: 'var(--line)', strong: 'var(--line-strong)' },
       },
       fontFamily: {

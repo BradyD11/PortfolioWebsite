@@ -27,7 +27,7 @@ const ORBITS = [
 const TONES = {
   sky: [157, 190, 255],
   ink: [245, 245, 244],
-  signal: [255, 162, 58],
+  signal: [99, 198, 155],
 }
 
 const TRAIL = 40

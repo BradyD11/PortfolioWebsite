@@ -95,6 +95,33 @@ export const ROLES = [
   },
 ]
 
+/**
+ * The two disciplines Brady is hiring into, each backed by shipped work rather
+ * than a self-assessment. Every line here traces to a role in ROLES.
+ */
+export const CAPABILITIES = [
+  {
+    name: 'Full-stack',
+    line: 'Applications end to end — interface, API and schema.',
+    points: [
+      'Built SMBC’s port-tracking tool front to back in React, Node and SQL against the Nlyte NGage API.',
+      'Refactored Pivotal’s Python serializer validation into a JSON REST API, making verification language-agnostic.',
+      'Raised unit test coverage 90% across 20+ interconnected modules.',
+    ],
+    stack: ['React', 'TypeScript', 'Node', 'Django', 'SQL', 'REST'],
+  },
+  {
+    name: 'Machine learning',
+    line: 'Training and inference infrastructure that runs at cluster scale.',
+    points: [
+      'Orchestrates three sequential deep learning models across ASU’s Sol supercomputer with SLURM job arrays and Apptainer containers.',
+      'Engineered a multithreaded PyTorch computer-vision detection system tuned to cut inference latency.',
+      'Applying ML techniques to space-weather prediction inside the Orbitscape platform.',
+    ],
+    stack: ['PyTorch', 'Python', 'SLURM', 'Apptainer', 'pandas', 'HPC'],
+  },
+]
+
 export const PROJECTS = [
   {
     id: 'orbitscape',
@@ -102,6 +129,9 @@ export const PROJECTS = [
     kind: 'Live platform · The Luminosity Lab',
     href: 'https://orbitscape.space',
     hrefLabel: 'orbitscape.space',
+    shot: '/orbitscape.webp',
+    shotAlt:
+      'The Orbitscape landing page: a lunar surface below a planet limb, headed “Visualize, share, and collaborate on complex mission operations”.',
     line: 'A web platform for visualizing, sharing and collaborating on complex orbital missions — from low Earth orbit to cis-lunar.',
     body: 'I architected and deployed the Python and pandas pipeline that pulls spacecraft ephemeris from NASA JPL’s Horizons system, parses it into vector data the renderer can consume, and keeps historic and current missions in sync. I am now applying machine learning techniques to space-weather analysis inside the same platform, contributing to predictive modelling for orbital applications.',
     facts: [

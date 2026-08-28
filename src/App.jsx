@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
 import { ArrowDownToLine, ArrowUpRight, Github, Linkedin, Mail } from 'lucide-react'
 import OrbitalField from './components/OrbitalField'
-import TrajectoryPlot from './components/TrajectoryPlot'
 import PipelineDiagram from './components/PipelineDiagram'
 import Timeline from './components/Timeline'
-import { ME, VITALS, ROLES, PROJECTS, ALSO, SKILLS, HONOURS } from './data'
+import { ME, VITALS, ROLES, CAPABILITIES, PROJECTS, ALSO, SKILLS, HONOURS } from './data'
 
 const NAV = [
   ['Work', 'work'],
@@ -68,7 +67,7 @@ export default function App() {
     <>
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-5 focus:top-5 focus:z-[100] focus:bg-signal focus:px-4 focus:py-2 focus:font-data focus:text-[11px] focus:uppercase focus:tracking-wider2 focus:text-black"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-5 focus:top-5 focus:z-[100] focus:bg-signal focus:px-4 focus:py-2 focus:font-data focus:text-[11px] focus:uppercase focus:tracking-wider2 focus:text-ink"
       >
         Skip to content
       </a>
@@ -103,7 +102,7 @@ export default function App() {
             <a
               href={ME.resume}
               download
-              className="group inline-flex items-center gap-2 border border-hair-strong px-3.5 py-2 font-data text-[10px] uppercase tracking-wider2 text-ink transition-colors duration-300 hover:border-signal hover:text-signal sm:text-[11px]"
+              className="group inline-flex items-center gap-2 border border-hair-strong px-3.5 py-2 font-data text-[10px] uppercase tracking-wider2 text-ink transition-colors duration-300 hover:border-signal-mark hover:text-signal-mark sm:text-[11px]"
             >
               <ArrowDownToLine size={13} strokeWidth={1.5} />
               Résumé
@@ -141,23 +140,15 @@ export default function App() {
             {/* Content holds the left half; the field keeps the right. */}
             <div className="w-full lg:max-w-[700px]">
               <h1 className="max-w-[20ch] text-[clamp(2.125rem,4.6vw,3.75rem)] font-extralight leading-[1.06] tracking-[-0.02em] text-ink">
-                I build the infrastructure behind mission visualization.
+                I build full-stack products and the machine learning inside them.
               </h1>
 
             <p className="mt-7 max-w-[52ch] text-[clamp(0.9688rem,1.15vw,1.0625rem)] font-light leading-[1.65] text-ink-2">
               Software engineer at{' '}
-              <span className="text-ink">ASU’s Luminosity Lab</span>, where I built the
-              NASA JPL data pipeline powering{' '}
-              <a
-                href="https://orbitscape.space"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sky underline decoration-sky/35 underline-offset-4 transition-colors hover:decoration-sky"
-              >
-                Orbitscape
-              </a>{' '}
-              and the ML pipeline that runs on ASU’s Sol supercomputer. Two years shipping
-              production code while enrolled full-time.
+              <span className="text-ink">ASU’s Luminosity Lab</span>. I ship applications
+              end to end — React, Node, Python — and the ML infrastructure behind them,
+              from a PyTorch vision system to a pipeline running across ASU’s Sol
+              supercomputer. Two years of production code while enrolled full-time.
             </p>
 
             {/* Signature block — face, name, and what he is looking for. */}
@@ -176,8 +167,8 @@ export default function App() {
                 </p>
                 <p className="mt-2 flex items-center gap-2.5">
                   <span className="relative flex h-[7px] w-[7px] shrink-0">
-                    <span className="beacon absolute inline-flex h-full w-full rounded-full bg-signal" />
-                    <span className="relative inline-flex h-[7px] w-[7px] rounded-full bg-signal" />
+                    <span className="beacon absolute inline-flex h-full w-full rounded-full bg-signal-mark" />
+                    <span className="relative inline-flex h-[7px] w-[7px] rounded-full bg-signal-mark" />
                   </span>
                   <span className="whitespace-nowrap font-data text-[10px] uppercase tracking-wider2 text-ink-2 sm:text-[11px]">
                     Available · Summer 2027
@@ -190,7 +181,7 @@ export default function App() {
               <a
                 href={ME.resume}
                 download
-                className="inline-flex items-center justify-center gap-2.5 bg-signal px-6 py-3.5 font-data text-[11px] uppercase tracking-wider2 text-black transition-transform duration-300 ease-out hover:-translate-y-0.5 sm:justify-start"
+                className="inline-flex items-center justify-center gap-2.5 bg-signal px-6 py-3.5 font-data text-[11px] uppercase tracking-wider2 text-ink transition-transform duration-300 ease-out hover:-translate-y-0.5 sm:justify-start"
               >
                 <ArrowDownToLine size={14} strokeWidth={1.75} />
                 Download résumé
@@ -219,8 +210,48 @@ export default function App() {
           </div>
         </section>
 
+        {/* ------------------------------------------------- what he does */}
+        <section className="border-t border-hair py-24 sm:py-28">
+          <div className="shell grid gap-14 md:grid-cols-2 md:gap-16">
+            {CAPABILITIES.map((c) => (
+              <div key={c.name} data-reveal>
+                <h2 className="text-[clamp(1.375rem,2.2vw,1.75rem)] font-light tracking-[-0.015em] text-ink">
+                  {c.name}
+                </h2>
+                <p className="mt-3 text-[0.9375rem] font-light leading-[1.6] text-ink-2">
+                  {c.line}
+                </p>
+                <ul className="mt-7 space-y-3.5 border-t border-hair pt-6">
+                  {c.points.map((pt) => (
+                    <li
+                      key={pt}
+                      className="relative pl-6 text-[0.9375rem] font-light leading-[1.7] text-ink-2"
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="absolute left-0 top-[0.62em] h-px w-3 bg-signal-mark/60"
+                      />
+                      {pt}
+                    </li>
+                  ))}
+                </ul>
+                <ul className="mt-7 flex flex-wrap gap-x-2 gap-y-2">
+                  {c.stack.map((t) => (
+                    <li
+                      key={t}
+                      className="border border-hair px-2.5 py-1 font-data text-[10px] tracking-[0.06em] text-ink-3"
+                    >
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* ------------------------------------------------------------- work */}
-        <section id="work" className="scroll-mt-24 py-28 sm:py-36">
+        <section id="work" className="scroll-mt-24 border-t border-hair py-28 sm:py-36">
           <div className="shell">
             <SectionHead aside="Two systems in production">
               What I’m building
@@ -233,14 +264,28 @@ export default function App() {
                     className={`lg:col-span-7 ${i % 2 === 1 ? 'lg:order-2' : ''}`}
                   >
                     <div className="relative aspect-[520/348] w-full overflow-hidden border border-hair bg-ground-raised">
-                      <div
-                        className="pointer-events-none absolute inset-0"
-                        style={{
-                          background:
-                            'radial-gradient(120% 100% at 50% 0%, rgba(157,190,255,0.05), transparent 62%)',
-                        }}
-                      />
-                      {p.id === 'orbitscape' ? <TrajectoryPlot /> : <PipelineDiagram />}
+                      {p.shot ? (
+                        <img
+                          src={p.shot}
+                          alt={p.shotAlt}
+                          width="1600"
+                          height="1071"
+                          loading="lazy"
+                          decoding="async"
+                          className="h-full w-full object-cover object-top"
+                        />
+                      ) : (
+                        <>
+                          <div
+                            className="pointer-events-none absolute inset-0"
+                            style={{
+                              background:
+                                'radial-gradient(120% 100% at 50% 0%, rgba(157,190,255,0.05), transparent 62%)',
+                            }}
+                          />
+                          <PipelineDiagram />
+                        </>
+                      )}
                     </div>
                   </div>
 
@@ -451,7 +496,7 @@ export default function App() {
             <div className="mt-12 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <a
                 href={`mailto:${ME.email}`}
-                className="inline-flex items-center justify-center gap-2.5 bg-signal px-6 py-3.5 font-data text-[10px] uppercase tracking-wider2 text-black transition-transform duration-300 ease-out hover:-translate-y-0.5 sm:justify-start sm:text-[11px]"
+                className="inline-flex items-center justify-center gap-2.5 bg-signal px-6 py-3.5 font-data text-[10px] uppercase tracking-wider2 text-ink transition-transform duration-300 ease-out hover:-translate-y-0.5 sm:justify-start sm:text-[11px]"
               >
                 <Mail size={14} strokeWidth={1.75} />
                 {ME.email}

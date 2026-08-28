@@ -26,11 +26,19 @@ Restrained: neutrals plus two reserved hues that never decorate.
 | `--ink-3` | `#7e7e7a` | Telemetry labels. 5.2:1 on ground — the floor, never lowered. |
 | `--line` | `rgba(255,255,255,.09)` | Section rules, panel borders. |
 | `--line-strong` | `rgba(255,255,255,.18)` | Secondary button borders, tick marks. |
-| `--signal` | `#ffa23a` | **Live state and the primary action only.** The availability beacon, the "now" marker, current roles, the scoring loop, the primary CTA. Never decoration. |
+| `--signal` | `#23694e` | **Fills only** — the primary CTA, and any surface carrying white text. Deep pine: 6.0:1 under `--ink`, and 3.2:1 as a shape against the page, which is the floor for a UI component. |
+| `--signal-mark` | `#63c69b` | **Marks only** — the availability beacon, the "now" line, current-role bars, bullet dashes, focus rings, the scoring loop. A 1px rule or a 7px dot in the dark tone simply disappears on black; this is the same accent at mark weight. |
 | `--sky` | `#9dbeff` | **Anything traversable.** Links, orbit paths, the lit limb. |
 
-The two hues carry a temperature argument: warm means *now, act on this*; cold
-means *go there*. If a new element is neither, it is neutral.
+Every colour is stored as **bare RGB channels** (`--signal-mark-rgb: 99 198 155`) with
+resolved `rgb()` values alongside, and Tailwind maps them through `<alpha-value>`.
+This is not cosmetic: given a whole `var()` colour, Tailwind cannot build its
+`/alpha` modifier and emits **no rule at all** — `bg-signal-mark/60` compiles to
+nothing and the element renders with no background, silently. The channel form is
+what keeps opacity modifiers working.
+
+The two hues carry an argument: green means *now, act on this*; blue means *go
+there*. If a new element is neither, it is neutral.
 
 ## Type
 
@@ -66,10 +74,14 @@ readable with scripting off.
   primary, drawn in two passes so bodies behind the primary are occluded by it.
   The plate leans toward the pointer; each body drags a decaying trace. Semi-major
   axes are held between 1.3 and 2.4 primary radii so the craft stay on canvas.
-- **`TrajectoryPlot`** — Orbitscape's visual. Flat top-down engineering view,
-  deliberately the opposite of the hero's tilted plate. Drawn to true scale
-  (lunar semi-major axis = 384,400 km); the scale bar is derived from that
-  constant, never eyeballed.
+- **Orbitscape card** — a real screenshot of the live landing page
+  (`public/orbitscape.webp`, 1600×1071, captured with software WebGL because the
+  page is GPU-dependent). Orbitscape's own ground is black, so the shot sits
+  inside the card without a seam. It replaced a drawn trajectory plot: the actual
+  product is better evidence than an illustration of it.
+- **Capability band** — two columns, Full-stack and Machine learning, sitting
+  directly under the fold. It answers "what kind of engineer is this" before the
+  visitor reaches any single project. Every line traces to a role in `ROLES`.
 - **`PipelineDiagram`** — the Sol pipeline. Job array, three chained stages, and
   the scoring arc returning to parameters. The loop is the drawing's argument.
 - **`Timeline`** — roles on a shared time axis rather than a reverse-chronological
@@ -85,6 +97,8 @@ readable with scripting off.
 
 - No gradient text, no glass, no icon-and-heading card grids, no eyebrows above
   headings, no section numbers.
+- New palette entries are added as `--*-rgb` channel triplets, never as hex
+  strings alone, or every `/alpha` class built on them silently vanishes.
 - Browser surfaces are themed: selection, caret, focus rings, and scrollbars all
   come from the palette.
 - Focus is always visible (`2px` signal, `3px` offset).
