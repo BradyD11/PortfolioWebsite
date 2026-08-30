@@ -12,16 +12,17 @@ import { orbitalPosition, orbitPath, TAU } from '../lib/orbits'
  */
 
 /**
- * Semi-major axes are in canvas units where the primary's radius is 0.40, so the
- * whole system spans roughly 1.3 to 2.4 planet radii. Anything wider throws the
- * craft off-canvas, which costs the field the only thing that makes it an orbital
- * diagram rather than a picture of a planet.
+ * Three orbits, not four, and each is given real clearance: semi-major axes run
+ * 1.9 to 3.0 primary radii, so the paths sweep *around* the body instead of
+ * grazing its limb. Four tightly-packed ellipses at mixed rotations read as a
+ * tangle of scratches rather than as a system, and eccentricities are kept modest
+ * so no periapsis dives back toward the surface. Nothing runs tangent to the limb
+ * either: a path that grazes the silhouette reads as a coincidence, not a choice.
  */
 const ORBITS = [
-  { a: 0.50, e: 0.05, omega: 0.35, period: 15, phase: 0.0, w: 2.2, tone: 'sky' },
-  { a: 0.63, e: 0.22, omega: 1.95, period: 27, phase: 2.1, w: 1.9, tone: 'ink' },
-  { a: 0.80, e: 0.55, omega: -0.55, period: 44, phase: 4.4, w: 2.8, tone: 'signal' },
-  { a: 0.95, e: 0.10, omega: 2.75, period: 68, phase: 1.2, w: 1.7, tone: 'ink' },
+  { a: 0.66, e: 0.07, omega: 0.38, period: 17, phase: 0.0, w: 2.2, tone: 'sky' },
+  { a: 0.85, e: 0.16, omega: 2.05, period: 32, phase: 2.3, w: 2.0, tone: 'ink' },
+  { a: 1.02, e: 0.30, omega: -0.62, period: 58, phase: 4.4, w: 2.7, tone: 'signal' },
 ]
 
 const TONES = {
@@ -93,7 +94,7 @@ export default function OrbitalField({ className = '' }) {
 
       const portrait = w < 860
       unit = portrait ? Math.min(w * 0.78, h * 0.44) : Math.min(w * 0.46, h * 0.82)
-      R = unit * 0.40
+      R = unit * 0.34
       // Desktop: primary sits right of the text column. Mobile: below it.
       cx = portrait ? w * 0.5 : w * 0.74
       cy = portrait ? h * 0.80 : h * 0.54
@@ -117,36 +118,64 @@ export default function OrbitalField({ className = '' }) {
       }
     }
 
-    /** Split a sampled orbit into behind-the-primary and in-front runs. */
-    function strokeOrbit(pts, behind, tone, alpha) {
-      ctx.strokeStyle = rgba(TONES[tone], alpha)
-      ctx.lineWidth = 1
-      let open = false
-      ctx.beginPath()
-      for (let i = 0; i < pts.length; i++) {
-        const p = pts[i]
-        const isBehind = p.depth < 0
-        if (isBehind === behind) {
-          const x = cx + p.x * unit
-          const y = cy + p.y * unit
-          if (!open) {
-            ctx.moveTo(x, y)
-            open = true
-          } else {
-            ctx.lineTo(x, y)
-          }
-        } else if (open) {
-          open = false
-        }
+    const BUCKETS = 8
+
+    /**
+     * Stroke one half of an orbit — the run behind the primary, or the run in
+     * front of it.
+     *
+     * Two things here are doing real work. First, brightness and width follow
+     * depth rather than being flat per half, so a path recedes instead of
+     * switching states; because both halves use the same ramp, they meet at
+     * identical values where they cross and leave no seam.
+     *
+     * Second, every segment is laid over a dark casing. A 1px line at low alpha
+     * has almost no contrast against the primary's lit face, so an unhoused path
+     * simply evaporates partway across the disc and reads as a line that stopped
+     * for no reason. The casing costs nothing against black space, where it is
+     * invisible, and is what lets a path cross a lit body and stay a path.
+     */
+    function strokeOrbit(pts, behind, tone) {
+      const colour = TONES[tone]
+      const lanes = Array.from({ length: BUCKETS }, () => [])
+
+      for (let i = 1; i < pts.length; i++) {
+        const p = pts[i - 1]
+        const q = pts[i]
+        if (q.depth < 0 !== behind) continue
+        // 0 at the far side of the orbit, 1 at the near side.
+        const near = Math.min(0.999, Math.max(0, (q.depth + 1) / 2))
+        lanes[(near * BUCKETS) | 0].push(p, q)
       }
-      ctx.stroke()
+
+      for (let k = 0; k < BUCKETS; k++) {
+        const lane = lanes[k]
+        if (!lane.length) continue
+
+        const near = (k + 0.5) / BUCKETS
+        const width = 0.85 + near * 0.85
+
+        ctx.beginPath()
+        for (let i = 0; i < lane.length; i += 2) {
+          ctx.moveTo(cx + lane[i].x * unit, cy + lane[i].y * unit)
+          ctx.lineTo(cx + lane[i + 1].x * unit, cy + lane[i + 1].y * unit)
+        }
+
+        ctx.strokeStyle = `rgba(0,0,0,${(0.5 * near).toFixed(3)})`
+        ctx.lineWidth = width + 2.6
+        ctx.stroke()
+
+        ctx.strokeStyle = rgba(colour, 0.13 + near * 0.4)
+        ctx.lineWidth = width
+        ctx.stroke()
+      }
     }
 
     function drawPrimary() {
       // Atmosphere: a wide, very faint halo. Offset and blurred, never a flat ring.
       const halo = ctx.createRadialGradient(cx, cy, R * 0.94, cx, cy, R * 1.42)
-      halo.addColorStop(0, 'rgba(157,190,255,0.16)')
-      halo.addColorStop(0.45, 'rgba(120,150,215,0.05)')
+      halo.addColorStop(0, 'rgba(157,190,255,0.20)')
+      halo.addColorStop(0.45, 'rgba(120,150,215,0.07)')
       halo.addColorStop(1, 'rgba(120,150,215,0)')
       ctx.fillStyle = halo
       ctx.beginPath()
@@ -173,9 +202,23 @@ export default function OrbitalField({ className = '' }) {
       ctx.fillRect(cx - R, cy - R, R * 2, R * 2)
       ctx.restore()
 
-      // Rim light along the terminator's bright edge.
-      ctx.strokeStyle = 'rgba(198,218,255,0.5)'
-      ctx.lineWidth = 1.1
+      /*
+       * The body needs an edge the whole way round, not only where it is lit.
+       * A path that slips behind the primary has to vanish *at something*; with
+       * the night side fading into black space there is no visible occluder at
+       * the moment the line disappears, and correct occlusion still reads as a
+       * line that stopped for no reason. This faint full rim is what makes the
+       * silhouette present, and it is why the orbits now look deliberate.
+       */
+      ctx.strokeStyle = 'rgba(126,152,205,0.30)'
+      ctx.lineWidth = 1
+      ctx.beginPath()
+      ctx.arc(cx, cy, Math.max(R - 0.5, 0.5), 0, TAU)
+      ctx.stroke()
+
+      // Rim light along the terminator's bright edge, over the full rim.
+      ctx.strokeStyle = 'rgba(198,218,255,0.52)'
+      ctx.lineWidth = 1.2
       ctx.beginPath()
       ctx.arc(cx, cy, Math.max(R - 0.5, 0.5), Math.PI * 0.72, Math.PI * 1.86)
       ctx.stroke()
@@ -223,7 +266,7 @@ export default function OrbitalField({ className = '' }) {
       pointer.y = approach(pointer.y, pointer.ty, 3.2, dt)
 
       const plate = {
-        tilt: 0.46 + pointer.y * 0.11,
+        tilt: 0.56 + pointer.y * 0.10,
         spin: pointer.x * 0.14,
       }
 
@@ -236,12 +279,12 @@ export default function OrbitalField({ className = '' }) {
 
       const state = ORBITS.map((o) => ({
         orbit: o,
-        pts: orbitPath(o, plate, 200),
+        pts: orbitPath(o, plate, 260),
         pos: orbitalPosition(o, t, plate),
       }))
 
       // Pass 1 — everything behind the primary.
-      state.forEach(({ orbit, pts }) => strokeOrbit(pts, true, orbit.tone, 0.14))
+      state.forEach(({ orbit, pts }) => strokeOrbit(pts, true, orbit.tone))
       state.forEach(({ orbit, pos }, i) => {
         if (pos.depth < 0) {
           drawTrail(trails[i], orbit.tone)
@@ -252,7 +295,7 @@ export default function OrbitalField({ className = '' }) {
       drawPrimary()
 
       // Pass 2 — everything in front of it.
-      state.forEach(({ orbit, pts }) => strokeOrbit(pts, false, orbit.tone, 0.28))
+      state.forEach(({ orbit, pts }) => strokeOrbit(pts, false, orbit.tone))
       state.forEach(({ orbit, pos }, i) => {
         if (pos.depth >= 0) {
           drawTrail(trails[i], orbit.tone)

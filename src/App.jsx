@@ -140,13 +140,13 @@ export default function App() {
             {/* Content holds the left half; the field keeps the right. */}
             <div className="w-full lg:max-w-[700px]">
               <h1 className="max-w-[20ch] text-[clamp(2.125rem,4.6vw,3.75rem)] font-extralight leading-[1.06] tracking-[-0.02em] text-ink">
-                I build full-stack products and the machine learning inside them.
+                I build full-stack products and study machine learning applications.
               </h1>
 
             <p className="mt-7 max-w-[52ch] text-[clamp(0.9688rem,1.15vw,1.0625rem)] font-light leading-[1.65] text-ink-2">
               Software engineer at{' '}
               <span className="text-ink">ASU’s Luminosity Lab</span>. I ship applications
-              end to end — React, Node, Python — and the ML infrastructure behind them,
+              end to end and the ML infrastructure behind them,
               from a PyTorch vision system to a pipeline running across ASU’s Sol
               supercomputer. Two years of production code while enrolled full-time.
             </p>
