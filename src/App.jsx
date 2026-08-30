@@ -154,9 +154,9 @@ export default function App() {
             {/* Signature block — face, name, and what he is looking for. */}
             <div className="mt-9 flex items-center gap-4 sm:gap-5">
               <img
-                src="/headshot.jpg"
-                width="88"
-                height="88"
+                src="/headshot4.webp"
+                width="600"
+                height="900"
                 alt="Brady Deschamps"
                 className="h-[72px] w-[72px] shrink-0 border border-hair-strong object-cover object-top sm:h-[88px] sm:w-[88px]"
                 style={{ filter: 'contrast(1.04) saturate(0.86) brightness(0.97)' }}
@@ -196,7 +196,7 @@ export default function App() {
             </div>
 
             {/* Vitals — the numbers a screener checks first. */}
-            <dl className="mt-12 grid grid-cols-2 gap-x-8 gap-y-5 border-t border-hair pt-7 sm:grid-cols-4">
+            <dl className="mt-12 grid grid-cols-2 gap-x-8 gap-y-5 border-t border-hair pt-7 sm:grid-cols-3">
               {VITALS.map((v) => (
                 <div key={v.label}>
                   <dt className="label">{v.label}</dt>
@@ -490,7 +490,7 @@ export default function App() {
             </h2>
             <p className="mt-7 max-w-[52ch] text-[1.0625rem] font-light leading-[1.62] text-ink-2">
               If you are hiring software engineering interns for Summer 2027, I would like to
-              talk. The fastest route is email — I answer the same day.
+              talk. Email is the fastest route.
             </p>
 
             <div className="mt-12 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
@@ -541,7 +541,7 @@ export default function App() {
       <footer className="border-t border-hair py-10">
         <div className="shell flex flex-wrap items-center justify-between gap-4">
           <p className="font-data text-[10px] uppercase tracking-wider2 text-ink-3">
-            {ME.name} · {ME.location}
+            {ME.name}
           </p>
           <p className="font-data text-[10px] uppercase tracking-wider2 text-ink-3 tnum">
             © 2026

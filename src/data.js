@@ -10,7 +10,6 @@ export const ME = {
   github: 'https://github.com/BradyD11',
   linkedin: 'https://www.linkedin.com/in/brady-d-deschamps/',
   resume: '/Brady-Deschamps-Resume.pdf',
-  location: 'Tempe, Arizona',
   seeking: 'Summer 2027 software engineering internship',
 }
 
@@ -18,7 +17,6 @@ export const VITALS = [
   { label: 'School', value: 'ASU · Barrett Honors' },
   { label: 'Degrees', value: 'BS 2027 · MS 2028' },
   { label: 'GPA', value: '4.00' },
-  { label: 'Based', value: 'Tempe, AZ' },
 ]
 
 /**

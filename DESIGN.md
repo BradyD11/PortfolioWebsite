@@ -93,6 +93,10 @@ readable with scripting off.
   clearing the primary). Source is `tools/og-card.html`; regenerate with
   `node tools/render-og.mjs`. 1200×630, declared in `index.html`.
 
+- **Portrait** — `public/headshot4.webp`, square-cropped by CSS (`object-cover
+  object-top`) at 72–88px beside the name. Slightly de-saturated and contrast-lifted
+  so a studio backdrop sits on a true-black page without a bright rectangle.
+
 ## Rules that hold
 
 - No gradient text, no glass, no icon-and-heading card grids, no eyebrows above
@@ -103,3 +107,6 @@ readable with scripting off.
   come from the palette.
 - Focus is always visible (`2px` signal, `3px` offset).
 - Every link resolves. Only `orbitscape.space` is claimed as live.
+- No location and no response-time promise anywhere on the page.
+- Full-resolution originals stay out of the render path; the page loads derived
+  assets sized for their display box.

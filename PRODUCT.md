@@ -40,6 +40,8 @@ The site is evaluated in a browser tab, often alongside a stack of other candida
 - Static single-page site. React 18 + Vite + Tailwind CSS. Repo: `github.com/BradyD11/PortfolioWebsite`. No backend, no forms requiring a server.
 - **Deploy target: Netlify** (`netlify.toml` present). **Live at https://bradydeschamps.netlify.app/** — supplied by Brady and verified returning 200 on 2026-08-28. This is the canonical host; `canonical`, `og:url`, and the absolute `og:image` in `index.html` all point at it.
 - Contact is **email and LinkedIn only**. The phone number on the resume PDF is deliberately **not** published on the page.
+- **Location is not published either** — removed from the page 2026-08-30 at Brady's request. Tempe still appears as the *place* of individual roles in the experience list, which is resume content about a job, not a statement of where he lives. Do not reintroduce a "Based" field.
+- **No response-time promises.** "I answer the same day" was removed 2026-08-30: it is a commitment the page cannot keep on Brady's behalf. Contact copy names the fastest channel, never a turnaround.
 - **Confidentiality, affirmatively confirmed 2026-08-27 and re-confirmed 2026-08-28:** SMBC and Luminosity Lab work is described **only to the level already stated on the public resume PDF**. This is a live constraint, not a default. Internal detail about the Sol pipeline exists in Brady's local `~/Luminosity/ProteinPipelineDemo` checkout — the specific model chain, the scientific domain, and the scoring metric — and was deliberately excluded. Do not reintroduce it without Brady clearing it with the lab.
 - Must degrade gracefully: any heavy hero animation needs a reduced-motion path and must not block content or hurt mobile performance.
 
@@ -59,7 +61,8 @@ The site is evaluated in a browser tab, often alongside a stack of other candida
 - Public repos, source only: `github.com/BradyD11/CrisisConnect`, `github.com/BradyD11/sunpath`
 - Profiles: `github.com/BradyD11`, `linkedin.com/in/brady-d-deschamps/`, `brady.d.deschamps@gmail.com`
 - Verified résumé metrics available for use: 90% unit-test coverage increase across 20+ modules; 5,000+ lines of legacy code removed; 4.0 GPA.
-- Assets in `public/`: `Brady-Deschamps-Resume.pdf` (current), `headshot.jpg`, `favicon.svg`, `og.png`.
+- Assets in `public/`: `Brady-Deschamps-Resume.pdf` (current), `favicon.svg`, `og.png`, `orbitscape.webp`.
+- **Portrait:** `public/headshot4.webp` (600×900, 55 KB) is what the page loads. It is derived from `public/Headshot4.jpg`, Brady's 2700×4050 studio original, which stays as the source. The original is 3.4 MB and must never be referenced directly — the page principle is that it stays fast on a career-fair phone. Regenerate with `cwebp -q 86` after `sips --resampleWidth 600`.
 - **`public/orbitscape.webp`** — a screenshot of the live orbitscape.space landing page, used as the Orbitscape project's visual. It is Brady's own project; the shot is of the public marketing page only.
 - **`public/og.png`** — the 1200×630 link-preview card. Rendered from `tools/og-card.html` via `tools/render-og.mjs`, not hand-drawn, so it is regenerable when the pitch line changes. Contains no photograph by design, so replacing `headshot.jpg` never leaves a stale face in the card.
 
@@ -79,7 +82,6 @@ The site is evaluated in a browser tab, often alongside a stack of other candida
 ## Open Decisions
 
 - **Sol pipeline depth** — currently held at resume level by Brady's decision. If the Luminosity Lab clears the fuller description, the project copy in `src/data.js` (`PROJECTS[1]`) is where it would change. Not currently cleared.
-- **Headshot** — `public/headshot.jpg` is still the old senior photo standing in. Brady has a newer studio headshot to drop over it; no code change needed when he does.
 
 ## Product Principles
 
