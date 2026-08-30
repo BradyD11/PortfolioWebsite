@@ -70,10 +70,29 @@ readable with scripting off.
 
 ## Signature elements
 
-- **`OrbitalField`** — the hero. Four bodies on real Kepler ellipses around a lit
+- **`OrbitalField`** — the hero. Three bodies on real Kepler ellipses around a lit
   primary, drawn in two passes so bodies behind the primary are occluded by it.
-  The plate leans toward the pointer; each body drags a decaying trace. Semi-major
-  axes are held between 1.3 and 2.4 primary radii so the craft stay on canvas.
+  The plate leans toward the pointer; each body drags a decaying trace.
+
+  Three rules keep it reading as drawn rather than generated, each learned by
+  getting it wrong first:
+
+  1. **Clearance.** Semi-major axes run 1.9–3.0 primary radii with modest
+     eccentricities, so paths sweep around the body instead of grazing it.
+     Nothing runs tangent to the limb — a path that grazes the silhouette reads
+     as a coincidence, not a choice.
+  2. **Depth is a ramp, not a switch.** Brightness and width follow depth
+     continuously, and both halves share one ramp, so they meet at identical
+     values where they cross and leave no seam.
+  3. **Every path is cased in black.** A 1px line at low alpha has almost no
+     contrast against the lit face, so an unhoused path evaporates partway across
+     the disc and reads as a line that stopped for no reason. The casing is
+     invisible against space, and is what lets a path cross a lit body.
+
+  The primary carries a faint rim around its **whole** circumference, not only
+  the lit arc. A path slipping behind it has to vanish at something visible; with
+  the night side fading into black there was no occluder on screen at the moment
+  a line disappeared, and correct occlusion still read as a line that quit.
 - **Orbitscape card** — a real screenshot of the live landing page
   (`public/orbitscape.webp`, 1600×1071, captured with software WebGL because the
   page is GPU-dependent). Orbitscape's own ground is black, so the shot sits
