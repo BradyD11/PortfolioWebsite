@@ -489,8 +489,7 @@ export default function App() {
               Available for Summer 2027 internships.
             </h2>
             <p className="mt-7 max-w-[52ch] text-[1.0625rem] font-light leading-[1.62] text-ink-2">
-              If you are hiring software engineering interns for Summer 2027, I would like to
-              talk. Email is the fastest route.
+              If you are hiring software engineering interns for Summer 2027, I'd love to chat. Email is the fastest route.
             </p>
 
             <div className="mt-12 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
