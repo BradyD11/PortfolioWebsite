@@ -147,7 +147,7 @@ export default function App() {
               Software engineer at{' '}
               <span className="text-ink">ASU’s Luminosity Lab</span>. I ship applications
               end to end and the ML infrastructure behind them,
-              from a PyTorch vision system to a pipeline running across ASU’s Sol
+              worked on everything from API refactoring, a PyTorch vision system, and a pipeline running on ASU’s Sol
               supercomputer. Two years of production code while enrolled full-time.
             </p>
 
