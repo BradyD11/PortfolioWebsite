@@ -153,6 +153,36 @@ export const PROJECTS = [
     ],
     stack: ['Python', 'PyTorch', 'SLURM', 'Apptainer', 'HPC'],
   },
+  {
+    id: 'converten',
+    name: 'Converten (fx-ledger)',
+    kind: 'Open source · Haskell',
+    href: 'https://github.com/BradyD11/Converten',
+    hrefLabel: 'Repository',
+    line: 'A multi-currency double-entry ledger where the accounting invariants are enforced by the type system and verified against real concurrency.',
+    body: 'Currency is a type parameter rather than a field, so adding dollars to euros does not fail a check — it does not compile, which a script verifies by compiling the offending programs and asserting failure. Unbalanced transactions are unrepresentable: the constructor is unexported and the only builder computes the per-currency residual and refuses anything non-zero. Transfers commit through STM so money is conserved under contention. A mutation script breaks atomicity on purpose to prove the concurrency suite can actually fail — which caught a conservation property that passed against the broken store, because a lost update dropping both legs still nets to zero.',
+    facts: [
+      ['Invariant', 'Every currency sums to zero'],
+      ['Concurrency', 'STM · atomic commit'],
+      ['Tests', '21 properties + mutation'],
+    ],
+    stack: ['Haskell', 'STM', 'Hedgehog', 'DataKinds', 'cabal'],
+  },
+  {
+    id: 'econometrics',
+    name: 'Factor model + ML residual analysis',
+    kind: 'Quantitative research · Python',
+    href: 'https://github.com/BradyD11/econometrics',
+    hrefLabel: 'Repository',
+    line: 'Does a machine-learning model find exploitable structure in the residuals of a Fama-French 5-factor model? Short answer: no, not usefully.',
+    body: 'Stage one fits rolling 60-month FF5 regressions with Newey-West errors across 30 industry portfolios, keeping residuals strictly out-of-sample so stage two is not trained on an artefact of the fit. Stage two predicts the next residual from features knowable at the time, using LightGBM against a ridge baseline with walk-forward tuning. The finding is a negative one, reported as such: a weak ordering signal at rank IC ≈ +0.03 that is episodic, negative in level-R², and destroyed by realistic transaction costs. The no-look-ahead guarantee is machine-checked — a test corrupts all post-cutoff data and requires earlier features to stay bit-for-bit identical.',
+    facts: [
+      ['Sample', '1963-07 → 2026-07'],
+      ['Stage 1', 'Rolling FF5 · Newey-West'],
+      ['Verdict', 'Signal fails net of costs'],
+    ],
+    stack: ['Python', 'LightGBM', 'pandas', 'statsmodels', 'SHAP'],
+  },
 ]
 
 export const ALSO = [

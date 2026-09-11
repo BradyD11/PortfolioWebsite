@@ -2,8 +2,21 @@ import { useEffect, useState } from 'react'
 import { ArrowDownToLine, ArrowUpRight, Github, Linkedin, Mail } from 'lucide-react'
 import OrbitalField from './components/OrbitalField'
 import PipelineDiagram from './components/PipelineDiagram'
+import LedgerDiagram from './components/LedgerDiagram'
+import ResidualDiagram from './components/ResidualDiagram'
 import Timeline from './components/Timeline'
 import { ME, VITALS, ROLES, CAPABILITIES, PROJECTS, ALSO, SKILLS, HONOURS } from './data'
+
+/**
+ * Each project without a screenshot draws its own schematic. Keyed by id rather
+ * than defaulted, so a new project with no drawing renders an empty frame
+ * instead of silently borrowing another project's diagram.
+ */
+const DIAGRAMS = {
+  sol: PipelineDiagram,
+  converten: LedgerDiagram,
+  econometrics: ResidualDiagram,
+}
 
 const NAV = [
   ['Work', 'work'],
@@ -253,7 +266,7 @@ export default function App() {
         {/* ------------------------------------------------------------- work */}
         <section id="work" className="scroll-mt-24 border-t border-hair py-28 sm:py-36">
           <div className="shell">
-            <SectionHead aside="Two systems in production">
+            <SectionHead aside="Four systems, two in production">
               What I’m building
             </SectionHead>
 
@@ -283,7 +296,7 @@ export default function App() {
                                 'radial-gradient(120% 100% at 50% 0%, rgba(157,190,255,0.05), transparent 62%)',
                             }}
                           />
-                          <PipelineDiagram />
+                          {DIAGRAMS[p.id]?.() ?? null}
                         </>
                       )}
                     </div>
