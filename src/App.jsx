@@ -3,6 +3,7 @@ import { ArrowDownToLine, ArrowUpRight, Github, Linkedin, Mail } from 'lucide-re
 import OrbitalField from './components/OrbitalField'
 import PipelineDiagram from './components/PipelineDiagram'
 import LedgerDiagram from './components/LedgerDiagram'
+import DedupDiagram from './components/DedupDiagram'
 import ResidualDiagram from './components/ResidualDiagram'
 import Timeline from './components/Timeline'
 import { ME, VITALS, ROLES, CAPABILITIES, PROJECTS, ALSO, SKILLS, HONOURS } from './data'
@@ -15,6 +16,7 @@ import { ME, VITALS, ROLES, CAPABILITIES, PROJECTS, ALSO, SKILLS, HONOURS } from
 const DIAGRAMS = {
   sol: PipelineDiagram,
   converten: LedgerDiagram,
+  perfin: DedupDiagram,
   econometrics: ResidualDiagram,
 }
 

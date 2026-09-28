@@ -25,7 +25,7 @@ Brady positions as a **full-stack engineer who also builds the machine learning*
 The differentiator is that his work is **real infrastructure, not coursework**: he ships applications front to back, runs ML workloads on a university supercomputer, and has held paid software engineering roles for over two years while enrolled full-time. Most internship-candidate portfolios show class projects; this one shows systems in production.
 
 Concretely:
-**Full-stack evidence:** SMBC's port-tracking tool built front to back (React, Node, SQL, Nlyte NGage API); Pivotal's serializer validation refactored into a JSON REST API; 90% test-coverage increase across 20+ modules; CrisisConnect and sunpath in React/TypeScript.
+**Full-stack evidence:** SMBC's port-tracking tool built front to back (React, Node, SQL, Nlyte NGage API); Pivotal's serializer validation refactored into a JSON REST API; 90% test-coverage increase across 20+ modules; CrisisConnect in React/TypeScript; PerFin's Servant API and React + TypeScript review screen.
 
 **Machine learning evidence:** the Sol inference pipeline (three sequential deep learning models, SLURM job arrays, Apptainer containers, a scoring feedback loop that directs the next run's parameters); a multithreaded PyTorch computer-vision detection system; ML applied to space-weather prediction inside Orbitscape.
 
@@ -58,7 +58,7 @@ The site is evaluated in a browser tab, often alongside a stack of other candida
 - `Brady Deschamps - SWE Intern Resume.pdf` — current resume, to be published at `public/resume.pdf` with a prominent download action.
 - New headshot supplied by the user → `public/headshot.jpg`.
 - Live product: https://orbitscape.space — **the only publicly deployed, linkable thing Brady has.**
-- Public repos, source only: `github.com/BradyD11/CrisisConnect`, `github.com/BradyD11/sunpath`
+- Public repos, source only: `github.com/BradyD11/CrisisConnect`, `github.com/BradyD11/PerFin`
 - Profiles: `github.com/BradyD11`, `linkedin.com/in/brady-d-deschamps/`, `brady.d.deschamps@gmail.com`
 - Verified résumé metrics available for use: 90% unit-test coverage increase across 20+ modules; 5,000+ lines of legacy code removed; 4.0 GPA.
 - Assets in `public/`: `Brady-Deschamps-Resume.pdf` (current), `favicon.svg`, `og.png`, `orbitscape.webp`.
@@ -68,7 +68,7 @@ The site is evaluated in a browser tab, often alongside a stack of other candida
 
 **Absences that must not be fabricated:**
 
-- **CrisisConnect and sunpath are not deployed anywhere public** — confirmed 2026-08-28. `sunpath` carries a `vercel.json`, which is *not* evidence of a live deployment; do not treat it as one and do not invent a demo URL for either. Repository links only.
+- **CrisisConnect and PerFin are not deployed anywhere public.** PerFin's `serve --demo` runs locally only; do not invent a demo URL for either. Repository links only.
 - No testimonials, no press, no user counts, no metrics beyond those listed above.
 - No awards beyond Barrett Honors College, Tillman LTA Scholar, and the Grand Challenges Scholars Program.
 - No live demo URLs of any kind beyond orbitscape.space.

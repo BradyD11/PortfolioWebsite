@@ -169,6 +169,21 @@ export const PROJECTS = [
     stack: ['Haskell', 'STM', 'Hedgehog', 'DataKinds', 'cabal'],
   },
   {
+    id: 'perfin',
+    name: 'PerFin (ledger-cli)',
+    kind: 'Open source · Haskell + React',
+    href: 'https://github.com/BradyD11/PerFin',
+    hrefLabel: 'Repository',
+    line: 'A personal finance tracker built around one rule: a corrupted CSV row should never silently become a wrong dollar amount in a report.',
+    body: 'Money is integer cents parsed straight from the digit string, never a Double, and a row with three decimal places is rejected rather than truncated into a plausible wrong number. Transactions have no exported constructor, so the only way to build one is through validation that refuses future dates, zero amounts and empty merchants. Re-importing a statement never double-counts: each row gets a SHA-256 id derived from its content plus an occurrence index, which real data proved necessary — 67 of 339 rows in one export were genuinely distinct transit fares colliding on date, amount and merchant. A Servant API backs a React + TypeScript review screen where categorization rules preview every line they would file, and a property test checks the preview matches exactly what saving changes.',
+    facts: [
+      ['Money', 'Integer cents · no floats'],
+      ['Imports', 'Idempotent · order-independent'],
+      ['Tests', '138 · QuickCheck + HUnit'],
+    ],
+    stack: ['Haskell', 'SQLite', 'Servant', 'React', 'TypeScript', 'QuickCheck'],
+  },
+  {
     id: 'econometrics',
     name: 'Factor model + ML residual analysis',
     kind: 'Quantitative research · Python',
@@ -198,13 +213,6 @@ export const ALSO = [
     line: 'A lexer and parser for SQL-like search syntax, compiling an AST down to Django ORM queries.',
     stack: 'Python · Django · SQL',
     href: null,
-  },
-  {
-    name: 'sunpath',
-    line: 'Solar position and path visualization in the browser.',
-    stack: 'TypeScript · Vite',
-    href: 'https://github.com/BradyD11/sunpath',
-    hrefLabel: 'Repository',
   },
 ]
 
