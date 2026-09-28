@@ -155,15 +155,15 @@ export default function App() {
             {/* Content holds the left half; the field keeps the right. */}
             <div className="w-full lg:max-w-[700px]">
               <h1 className="max-w-[20ch] text-[clamp(2.125rem,4.6vw,3.75rem)] font-extralight leading-[1.06] tracking-[-0.02em] text-ink">
-                I build full-stack products and study machine learning applications.
+                I build full-stack products and the machine learning that powers them.
               </h1>
 
             <p className="mt-7 max-w-[52ch] text-[clamp(0.9688rem,1.15vw,1.0625rem)] font-light leading-[1.65] text-ink-2">
               Software engineer at{' '}
-              <span className="text-ink">ASU’s Luminosity Lab</span>. I ship applications
-              end to end and the ML infrastructure behind them,
-              worked on everything from API refactoring, a PyTorch vision system, and a pipeline running on ASU’s Sol
-              supercomputer. Two years of production code while enrolled full-time.
+              <span className="text-ink">ASU’s Luminosity Lab</span>. I ship web applications
+              end to end and build the ML infrastructure underneath, from REST APIs and a
+              PyTorch vision system to an inference pipeline on ASU’s Sol supercomputer. Two
+              years of production code, written while studying full-time.
             </p>
 
             {/* Signature block — face, name, and what he is looking for. */}
@@ -268,7 +268,7 @@ export default function App() {
         {/* ------------------------------------------------------------- work */}
         <section id="work" className="scroll-mt-24 border-t border-hair py-28 sm:py-36">
           <div className="shell">
-            <SectionHead aside="Four systems, two in production">
+            <SectionHead aside="Five systems, two in production">
               What I’m building
             </SectionHead>
 
@@ -356,7 +356,7 @@ export default function App() {
               ))}
             </div>
 
-            {/* Also built — deliberately quieter than the two above. */}
+            {/* Also built — deliberately quieter than the projects above. */}
             <div className="mt-28 border-t border-hair pt-10 sm:mt-36" data-reveal>
               <p className="label mb-8">Also built</p>
               <ul className="grid gap-x-10 gap-y-9 sm:grid-cols-3">
@@ -447,8 +447,8 @@ export default function App() {
               <div data-reveal>
                 <h3 className="text-[1.25rem] font-normal text-ink">Arizona State University</h3>
                 <p className="mt-2 text-[0.9375rem] font-light leading-[1.7] text-ink-2">
-                  Barrett, The Honors College — BS in Computer Science, graduating May 2027,
-                  continuing straight into ASU’s accelerated master’s for an MS in May 2028.
+                  Barrett, The Honors College. BS in Computer Science in May 2027, continuing
+                  directly into ASU’s accelerated master’s program for an MS in May 2028.
                 </p>
 
                 <dl className="mt-7 space-y-2.5 border-t border-hair pt-6">
@@ -504,7 +504,8 @@ export default function App() {
               Available for Summer 2027 internships.
             </h2>
             <p className="mt-7 max-w-[52ch] text-[1.0625rem] font-light leading-[1.62] text-ink-2">
-              If you are hiring software engineering interns for Summer 2027, I'd love to chat. Email is the fastest route.
+              If you’re hiring Software Engineering interns for Summer 2027, I’d love
+              to talk. Email is the fastest way to reach me.
             </p>
 
             <div className="mt-12 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
